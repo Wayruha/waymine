@@ -1,0 +1,19 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+
+        <mapping class="az.mecid.models.Task" />
+        <mapping class="az.mecid.models.User" />
+        <mapping class="az.mecid.models.Project" />
+        <mapping class="az.mecid.models.Task_User" />
+        <mapping class="az.mecid.models.Comment" />
+
+
+
+      </session-factory>
+
+</hibernate-configuration>
