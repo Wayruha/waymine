@@ -24,6 +24,16 @@ public class Task_User implements DataEntity {
     @Enumerated(EnumType.STRING)
     private Access access;
 
+    public Task_User(){
+
+    }
+
+    public Task_User(Task task, User user, Access access){
+        this.task=task;
+        this.user=user;
+        this.access=access;
+
+    }
 
     public Access getAccess() {
         return access;

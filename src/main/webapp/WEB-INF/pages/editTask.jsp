@@ -1,6 +1,7 @@
-<%@ page import="az.mecid.models.Project" %>
+<%@ page import="az.mecid.models.Task" %>
 <%@ page import="az.mecid.enums.Access" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -18,11 +19,10 @@
     <script type="text/javascript">
 
         function  addToManagedUsers(userId){
-
             var list=document.getElementById("listOfUsers");
             var li=document.getElementById(userId);
             var pre=document.createElement('pre');
-       var node=document.createTextNode(li.firstChild.text+'   ');    //   Забрать
+            var node=document.createTextNode(li.firstChild.text+'   ');    //   Забрать
             var select=document.createElement('select');
             var imgMinus=document.createElement("img");
             imgMinus.align="right";
@@ -30,11 +30,9 @@
             imgMinus.name=userId;
             select.options[0]=new Option("Owner","<%=Access.Owner%>");
             select.options[1]=new Option("Observer","<%=Access.Owner%>");
-
             pre.appendChild(node);// Забрать
             pre.appendChild(select);
             pre.appendChild(imgMinus)
-
             list.appendChild(pre);
             imgMinus.onclick=returnToUl;
             removeFromUl(userId);
@@ -55,26 +53,37 @@
             list.removeChild(this.parentNode);
         }
 
+        function convertUserList(){
+            var list=document.getElementById("listOfUsers");
+            var  PREs=list.getElementsByTagName("pre");
+            var usersString="", accessString="";
+            Array.prototype.forEach.call(PREs,function(el) {usersString+=el.childNodes[0].nodeValue+"%%";accessString+=el.childNodes[1].selectedOptions.item(0).textContent+" %%"; });
+            document.getElementById("userList").value=usersString;
+            document.getElementById("accessList").value=accessString;
+        }
     </script>
 </head>
 
-<body class="">
+<body class="" >
 <iframe src="/top" width="100%" height="170px" scrolling="no" border="0px"></iframe>
 <div class="container">
     <div class="row">
         <div class="col-md-12" draggable="true" style="">
-            <font size="+3">Creating task</font>
+            <table width="85%"> <tr>
+            <td><font size="+3">Creating task</font></td>
+                <td style="text-align: right"><font size="+3">Add users</font></td>
+            </tr></table>
             <div class="row" draggable="true">
                 <div class="col-md-8 pull-left">
                     <br>
                     <div class="well" style="border-radius:10px">
-                        <form class="form-horizontal" role="form">
+                        <form:form action="/form/saveTask" modelAttribute="TaskForm" class="form-horizontal" role="form" name="form">
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label for="title" class="control-label">Title</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="title" <c:if test="${task.id >0}"> placeholder="${task.title}"</c:if> placeholder="Title" > <!-- Сюди треба поставити перевірку чи можна вводити такі дані-->
+                                    <form:input path="title" class="form-control" id="title"/>
                                 </div>
                             </div>
                             <hr>
@@ -83,29 +92,25 @@
                                     <label for="description" class="control-label">Description</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <textarea class="form-control" rows="8" id="description"><c:if test="${task.id >0}"> ${task.description}</c:if> </textarea>
-                                </div>
+                                    <form:textarea path="description" class="form-control" id="description" rows="8"/>
+                            </div>
                             </div>
                             <hr>
+
                             <div class="form-group">
                                 <div class="col-sm-2">
-                                    <label for="manager" class="control-label">Add users</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="manager"  <c:if test="${project.id >0}"> placeholder="${project.manager.login}"</c:if>placeholder="Manager">
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <div class="col-sm-2">
-                                    <label for="description" class="control-label">Users in task</label>
+                                    <label for="description" class="control-label">Add users</label>
                                 </div>
                                 <div class="col-sm-6" id="listOfUsers">
+
                                 </div>
                             </div>
                             <hr>
-                            <a class="btn btn-primary btn-large">Save</a>
-                        </form>
+
+                            <input type="hidden" id="userList" name="userList">
+                            <input type="hidden" id="accessList" name="accessList">
+   <!--- -->               <a class="btn btn-primary btn-large" onclick="convertUserList();document.forms['form'].submit();">Save</a>
+                        </form:form>
                     </div>
                 </div>
                 <div class="col-md-3 pull-left" id="block">

@@ -1,8 +1,6 @@
 package az.mecid.controllers;
 
 import az.mecid.hiberdemo.AdsDao;
-import az.mecid.models.Project;
-import az.mecid.models.Task;
 import az.mecid.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,10 +23,16 @@ public class HelloController {
 
         return "redirect:/"+name;
     }                         */
+ @RequestMapping(value = {"/topFromProj}","topFromProj"},method = RequestMethod.GET)
+ public ModelAndView top(){
+     ModelAndView mav=new ModelAndView("top");
+      System.out.println("here");
+     mav.addObject("isProjectPage", true);
+     return mav;
+ }
 
     @RequestMapping(value = {"/{page}","{page}"},method = RequestMethod.GET)
     public String to(@PathVariable("page") String pageName){
-
         return pageName;
     }
 
@@ -65,30 +69,6 @@ public class HelloController {
         return mav;
     }
 
-    @RequestMapping(value = "editProject/{projectId}")
-    public ModelAndView editProj(@PathVariable("projectId") int projectId){
-        ModelAndView mav=new ModelAndView("editProj");
-        if(projectId>0){
-            Project proj=adsDao.getProjectById(projectId);
-           mav.addObject("project",proj);
-          //  System.out.println(proj.get);
-        }
-
-        return mav;
-    }
-
-    @RequestMapping(value = "editTask/{taskId}")
-    public ModelAndView editTask(@PathVariable("taskId") int taskId){
-        ModelAndView mav=new ModelAndView("editTask");
-        if(taskId>0){
-            Task task=adsDao.getTaskById(taskId);
-            List<User> userList=adsDao.getUsers("all");
-            mav.addObject("task",task);
-            mav.addObject("userList",userList);
-        }
-
-        return mav;
-    }
 
     @RequestMapping(value = "/ajaxtest", method = RequestMethod.GET,headers = {"Accept=text/xml, application/json"})
     @ResponseBody

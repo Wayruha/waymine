@@ -1,5 +1,7 @@
 <%@ page import="az.mecid.models.Project" %>
+<%@ page import="az.mecid.forms.ProjectForm" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -28,13 +30,15 @@
                     <br>
                     <font size="+3">Creating project</font>
                     <div class="well" style="border-radius:10px">
-                        <form class="form-horizontal" role="form">
+                     <form:form action="/form/saveProject" modelAttribute="ProjectForm" class="form-horizontal" role="form" name="form">
+                       <!-- <form class="form-horizontal" role="form" action="/form/saveProjForm" method="GET" name="form">-->
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label for="title" class="control-label">Title</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="title" <c:if test="${project.id >0}"> placeholder="${project.name}"</c:if> placeholder="Title" > <!-- Сюди треба поставити перевірку чи можна вводити такі дані-->
+                                    <form:input path="title" class="form-control" id="title"/>
+                                  <!-- Сюди треба поставити перевірку чи можна вводити такі дані-->
                                 </div>
                             </div>
                             <hr>
@@ -43,7 +47,8 @@
                                     <label for="description" class="control-label">Description</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="description" <c:if test="${project.id >0}"> placeholder="${project.description}"</c:if> placeholder="Description">
+                                    <form:input path="description" class="form-control" id="description" placeholder="${project.description}"/>
+
                                 </div>
                             </div>
                             <hr>
@@ -52,7 +57,7 @@
                                     <label for="manager" class="control-label">Add manager</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="manager"  <c:if test="${project.id >0}"> placeholder="${project.manager.login}"</c:if>placeholder="Manager">
+                                    <form:input path="manager" class="form-control" id="manager"/>
                                 </div>
                             </div>
                             <hr>
@@ -61,13 +66,14 @@
                                     <label for="description" class="control-label">Type</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type=radio name="type" value="public" <c:if test="${project.type=='Public'}">checked</c:if>>Public &nbsp;&nbsp;&nbsp;
-                                    <input type=radio name="type" value="private" <c:if test="${project.type=='Private'}">checked</c:if>>Private project
+                                    <form:radiobuttons path="type" items="${radioTypeList}" style="margin:0px 10px"/>
                                 </div>
                             </div>
                             <hr>
-                            <a class="btn btn-primary btn-large">Save</a>
-                        </form>
+                            <a class="btn btn-primary btn-large" onclick="document.forms['form'].submit();">Save</a>
+
+                        <!--</form>-->
+                         </form:form>
                      </div>
                 </div>
             </div>

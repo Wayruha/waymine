@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 
@@ -11,9 +13,17 @@
           rel="stylesheet" type="text/css">
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function func(){
+            var taskLi=document.getElementById("taskButt");
+           // alert(window.frames.pop().location.pathname);
+            if(${isProjectPage==true}) taskLi.className="";else taskLi.className="hidden";
+
+        }
+    </script>
 </head>
 
-<body>
+<body onload="func()">
 <div class="navbar navbar-default navbar-static-top" style="min-height: 90px;">
     <div class="container">
         <div class="navbar-header">
@@ -24,7 +34,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="index" target="_top">WayMine!</a>
+            <a class="navbar-brand" href="index" target="_top">${request.projectName}</a>
 
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -67,6 +77,12 @@
             </li>
             <li class="">
                 <a href="/userinfo/1" target="_top">Users</a>
+            </li>
+            <li class="">
+                <a href="/form/editProject/0" target="_top">New project</a>
+            </li>
+           <li class="hidden" id="taskButt">
+                <a href="/form/editTask/0" target="_top">New task</a>
             </li>
 
         </ul>

@@ -1,6 +1,8 @@
 package az.mecid.models;
 
 import az.mecid.enums.ProjectType;
+import az.mecid.forms.ProjectForm;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,7 +27,8 @@ public class Project implements DataEntity {
     @Enumerated(EnumType.STRING)
     private ProjectType type;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.REPLICATE)
     @JoinColumn(name="manager_id")
     private User manager;
 
@@ -72,9 +75,15 @@ public class Project implements DataEntity {
         this.id = id;
     }
 
-
     public Project(){
 
+    }
+
+    public Project (ProjectForm form, User manager){
+        this.name=form.getTitle();
+        this.description=form.getDescription();
+        this.type=form.getType();
+        this.manager=manager;
     }
 
 }

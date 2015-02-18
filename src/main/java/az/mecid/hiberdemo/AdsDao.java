@@ -19,15 +19,31 @@ public class AdsDao extends HibernateDaoSupport {
 
     public Project getProjectById(int id) {
         return getHibernateTemplate().get(Project.class, id);
-
-
     }
+
+    public boolean isProjectByTitle(String title){    //TODO
+          List<Project>list=(List<Project>)getHibernateTemplate().find("select project FROM Project as project WHERE project.name=?",title);
+        if(list.size()==0)return false;
+        else return true;
+    }
+
+    public boolean isTaskByTitle(String title){    //TODO
+        List<Project>list=(List<Project>)getHibernateTemplate().find("select task FROM Task as task WHERE task.title=?",title);
+        if(list.size()==0)return false;
+        else return true;
+    }
+
 
     public User getUserById(int id){
         return getHibernateTemplate().get(User.class, id);
     }
 
-   public List<User> getUsers (String projectName){
+    public List<User> getUserByLogin(String login){
+        return (List<User>)getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login);
+    }
+
+
+    public List<User> getUsers (String projectName){
       if(projectName.equals("all"))
           return getHibernateTemplate().loadAll(User.class);
       else

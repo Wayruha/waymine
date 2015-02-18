@@ -1,6 +1,7 @@
 package az.mecid.models;
 
 import az.mecid.enums.TaskStatus;
+import az.mecid.forms.TaskForm;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -42,6 +43,18 @@ public class Task implements DataEntity {
     @OneToMany(mappedBy = "task",fetch = FetchType.EAGER)
     private Set<Task_User> taskAndUserList;
 
+
+    public Task(){
+
+    }
+    public Task(TaskForm taskForm) {
+        this.title=taskForm.getTitle();
+        this.description=taskForm.getDescription();
+        this.status=taskForm.getStatus();
+        this.creator=taskForm.getCreator();
+
+       // this.use=taskForm.getUserList();
+    }
 
     public String getDescription() {
         return description;

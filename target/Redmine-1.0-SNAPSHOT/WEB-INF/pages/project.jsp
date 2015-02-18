@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>All projects</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -24,7 +24,7 @@
 </head>
 
 <body class="" onload="resizing()">
-<iframe src="/top" width="100%" height="170px" scrolling="no" border="0px"></iframe>
+<iframe src="/topFromProj" width="100%" height="170px" scrolling="no" border="0px"></iframe>
 
 <div class="container">
 

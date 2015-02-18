@@ -42,4 +42,5 @@
     <bean id="adsDao"  class="az.mecid.hiberdemo.AdsDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="SaveProjectValidator" class="az.mecid.forms.validators.SaveProjectValidator" />
 </beans>

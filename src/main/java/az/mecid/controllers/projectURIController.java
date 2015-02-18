@@ -7,7 +7,6 @@ import az.mecid.models.Project;
 import az.mecid.models.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,8 +23,7 @@ public class projectURIController {
     private AdsDao adsDao;
 
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public ModelAndView base(ModelMap model){
-
+    public ModelAndView base(){
         List<Project> projectsList = adsDao.getAllProjects();
         ModelAndView mav=new ModelAndView();
         mav.setViewName("base");
@@ -35,14 +33,12 @@ public class projectURIController {
 
     @RequestMapping(value = "/{project}")
     public ModelAndView projectResolver(@PathVariable("project") String projectName){
-
      ModelAndView mav=new ModelAndView();
                  mav.setViewName("project");
                  mav.addObject("projectName",projectName);
      List<Task> tasksList=adsDao.getTasksInProject(projectName);
         taskListSort(tasksList);
         mav.addObject("tasksList",tasksList);
-
         return mav;
     }
 
