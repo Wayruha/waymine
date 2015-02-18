@@ -45,11 +45,13 @@ public class AdsDao extends HibernateDaoSupport {
 
 
     public List<User> getUsers (int projectId){
+        System.out.println("АДС ДАО прийнтяний ПРОДЖЕКТ ІД "+projectId);
       if(projectId==0)
+
           return getHibernateTemplate().loadAll(User.class);
       else
       {
-            List<Task> taskList=getTasksInProject(projectId);
+          List<Task> taskList=getTasksInProject(projectId);
           List<User> userList=new ArrayList<User>();
           for(Task task: taskList)
           {
@@ -58,6 +60,15 @@ public class AdsDao extends HibernateDaoSupport {
           return userList;
       }
    }
+
+    public List<User> getUsersInTask (int taskId){
+            List<User> userList=new ArrayList<User>();
+            Task task=getTaskById(taskId);
+                userList.addAll((List<User>) getHibernateTemplate().find("select user from Task_User as t_u  INNER JOIN t_u.user as user WHERE t_u.task=?",task ));
+
+            return userList;
+
+    }
     public List<Task> getTasksInProject(int projectId){
         return (List<Task>) getHibernateTemplate().find("select t FROM Task as t INNER JOIN t.project as project WHERE project.id=? ORDER BY t.dateOfCreating DESC",projectId);
     }

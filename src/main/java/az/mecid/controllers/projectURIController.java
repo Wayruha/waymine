@@ -64,11 +64,12 @@ public class projectURIController {
     {
        List<Task> secondList=new ArrayList<Task>();
        for(Task task:taskList)
+
            if(task.getStatus()== TaskStatus.Done){
-               taskList.remove(task);
-               secondList.add(task);
-           } taskList.addAll(secondList);
-                                           //Або ж вернути новий таскЛіст, якшо будуть трабли
-    }
+               //taskList.remove(task);
+              // secondList.add(task);
+           } //taskList.addAll(secondList);
+       }                                    //Або ж вернути новий таскЛіст, якшо будуть трабли
+
 
 }

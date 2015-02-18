@@ -30,9 +30,30 @@
 </head>
 
 <body class="" onload="resizing()">
-<iframe src="/topFromProj?project=${task.project.id}" width="100%" height="170px" scrolling="no" border="0px"></iframe>
+<iframe src="/topFromProj?project=${task.project.id}" width="100%" height="90px" scrolling="no" border="0px"></iframe>
 <div class="container">
+    <div class="row">
+        <div class="col-md-12" >
+            <ul class="lead nav nav-pills">
+                <li class="active">
+                    <a href="/home" target="_top">Home</a>
+                </li>
+                <li class="">
+                    <a href="/projects" target="_top">Projects</a>
+                </li>
+                <li class="">
+                    <a href="/userinfo/1" target="_top">Users</a>
+                </li>
+                <li class="">
+                    <a href="/form/editProject/0" target="_top">New project</a>
+                </li>
+                <li class="" id="taskButt">
+                    <a href="/form/createTask/${task.project.id}" target="_top">New task</a>
+                </li>
 
+            </ul>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12" draggable="true" style="">
             <div class="" draggable="true">

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -60,18 +59,6 @@ public class HelloController {
         model.addAttribute("login",login);
         return "index";
     }
-
-
-
-    @RequestMapping(value = "getUsers/{from}")
-    public ModelAndView getUsers (@PathVariable("from") int projectId){
-        ModelAndView mav=new ModelAndView("users");
-        List<User> usersList=adsDao.getUsers(projectId);
-        mav.addObject("usersList",usersList);
-
-        return mav;
-    }
-
 
     @RequestMapping(value = "/ajaxtest", method = RequestMethod.GET,headers = {"Accept=text/xml, application/json"})
     @ResponseBody

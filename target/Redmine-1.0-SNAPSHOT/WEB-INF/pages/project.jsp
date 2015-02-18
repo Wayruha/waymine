@@ -19,21 +19,43 @@
             var tasksBlock=document.getElementById("tasksBlock");
             var usersFrame=document.getElementById("usersFrame");
             usersFrame.style.height=tasksBlock.clientHeight+10+'px';
+
         }
     </script>
 </head>
 
 <body class="" onload="resizing()">
-<iframe src="/topFromProj?project=${project.id}" width="100%" height="170px" scrolling="no" border="0px"></iframe>
+<iframe src="/topFromProj?project=${project.id}" name="usersFrame" width="100%" height="90px" scrolling="no" border="0px"></iframe>
 
 <div class="container">
 
+    <div class="row">
+        <div class="col-md-12 " >
+            <ul class="lead nav nav-pills">
+                <li class="">
+                    <a href="/home" target="_top">Home</a>
+                </li>
+                <li class="active">
+                    <a href="/projects" target="_top">Projects</a>
+                </li>
+                <li class="">
+                    <a href="/userinfo/1" target="_top">Users</a>
+                </li>
+                <li class="">
+                    <a href="/form/editProject/0" target="_top">New project</a>
+                </li>
+                <li class="" id="taskButt">
+                    <a href="/form/createTask/${project.id}" target="_top">New task</a>
+                </li>
 
+            </ul>
+        </div>
+    </div>
 
         <div class="row">
         <div class="col-md-12" draggable="true" style="">
             <div class="" draggable="true">
-                <div class="col-md-8 pull-left">
+                <div class="col-md-8 pull-left" id="tasksBlock">
                     <br>
                     <c:forEach items="${tasksList}" var="task">
                         <c:choose>
@@ -63,7 +85,7 @@
                         </div>
                     </c:forEach>
                 </div>
-                <iframe src="/getUsers/${project.id}" style="border:0px; margin: 20px 0px 0px 0px"/> <!-- USERS    -->
+                <iframe src="/getUsers/${project.id}" id="usersFrame" style="border:0px; margin: 20px 0px 0px 0px"/> <!-- USERS    -->
             </div>
         </div>
     </div>
