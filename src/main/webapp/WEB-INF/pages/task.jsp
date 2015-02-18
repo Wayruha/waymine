@@ -30,7 +30,7 @@
 </head>
 
 <body class="" onload="resizing()">
-<iframe src="/topFromProj" width="100%" height="170px" scrolling="no" border="0px"></iframe>
+<iframe src="/topFromProj?project=${task.project.id}" width="100%" height="170px" scrolling="no" border="0px"></iframe>
 <div class="container">
 
     <div class="row">
@@ -85,7 +85,7 @@
                         <p style="text-align: left;vertical-align: top"> <font size="2" color="#a9a9a9">Have been working for 122hours </font></p> <p style="text-align: right">Mark as done</p>
     </div>
 </div>
-<iframe src="/getUsers/SnakePath"  style="border:0px; margin: 20px 0px 0px 0px; height: 600px;"/> <!-- USERS    -->
+<iframe src="/getUsers/${task.project.id}"  style="border:0px; margin: 20px 0px 0px 0px; height: 600px;"/> <!-- USERS    -->
 </div>
         </div>
     </div>

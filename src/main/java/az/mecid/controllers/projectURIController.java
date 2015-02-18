@@ -25,19 +25,18 @@ public class projectURIController {
     @RequestMapping(value = "",method = RequestMethod.GET)
     public ModelAndView base(){
         List<Project> projectsList = adsDao.getAllProjects();
-        ModelAndView mav=new ModelAndView();
-        mav.setViewName("base");
+        ModelAndView mav=new ModelAndView("base");
         mav.addObject("projectsList",projectsList);
         return mav;
     }
 
-    @RequestMapping(value = "/{project}")
-    public ModelAndView projectResolver(@PathVariable("project") String projectName){
-     ModelAndView mav=new ModelAndView();
-                 mav.setViewName("project");
-                 mav.addObject("projectName",projectName);
-     List<Task> tasksList=adsDao.getTasksInProject(projectName);
+    @RequestMapping(value = "/{projectId}")
+    public ModelAndView projectResolver(@PathVariable("projectId") int projectId){
+     ModelAndView mav=new ModelAndView("project");
+           Project project=adsDao.getProjectById(projectId);
+     List<Task> tasksList=adsDao.getTasksInProject(projectId);
         taskListSort(tasksList);
+        mav.addObject("project",project);
         mav.addObject("tasksList",tasksList);
         return mav;
     }

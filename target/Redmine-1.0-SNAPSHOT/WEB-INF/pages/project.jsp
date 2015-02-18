@@ -24,11 +24,13 @@
 </head>
 
 <body class="" onload="resizing()">
-<iframe src="/topFromProj" width="100%" height="170px" scrolling="no" border="0px"></iframe>
+<iframe src="/topFromProj?project=${project.id}" width="100%" height="170px" scrolling="no" border="0px"></iframe>
 
 <div class="container">
 
-    <div class="row">
+
+
+        <div class="row">
         <div class="col-md-12" draggable="true" style="">
             <div class="" draggable="true">
                 <div class="col-md-8 pull-left">
@@ -61,7 +63,7 @@
                         </div>
                     </c:forEach>
                 </div>
-                <iframe src="/getUsers/${projectName}" style="border:0px; margin: 20px 0px 0px 0px"/> <!-- USERS    -->
+                <iframe src="/getUsers/${project.id}" style="border:0px; margin: 20px 0px 0px 0px"/> <!-- USERS    -->
             </div>
         </div>
     </div>

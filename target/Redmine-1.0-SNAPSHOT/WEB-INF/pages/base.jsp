@@ -39,7 +39,7 @@
                    <br>
                     <c:forEach items="${projectsList}" var="project">
                     <div class="well">
-                        <font size="5"><a  href="projects/${project.name}">${project.name}</a></font>
+                        <font size="5"><a  href="projects/${project.id}">${project.name}</a></font>
                         <br>
                         <u>${project.description}</u>
                         <br>
@@ -61,7 +61,7 @@
                 </div>
 
 
-                  <iframe src="/getUsers/all" style="border:0px; margin: 20px 0px 0px 0px" scrolling="no" id="usersFrame" onload="calculateUsersBlocksSize()"/> <!-- USERS   -->
+                  <iframe src="/getUsers/0" style="border:0px; margin: 20px 0px 0px 0px" scrolling="no" id="usersFrame" onload="calculateUsersBlocksSize()"/> <!-- USERS   -->
                    </iframe>
                 </div>
             </div>

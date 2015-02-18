@@ -65,7 +65,7 @@
 </head>
 
 <body class="" >
-<iframe src="/top" width="100%" height="170px" scrolling="no" border="0px"></iframe>
+<iframe src="/topFromProj?project=${projectId}" width="100%" height="170px" scrolling="no" border="0px"></iframe>
 <div class="container">
     <div class="row">
         <div class="col-md-12" draggable="true" style="">
@@ -77,7 +77,7 @@
                 <div class="col-md-8 pull-left">
                     <br>
                     <div class="well" style="border-radius:10px">
-                        <form:form action="/form/saveTask" modelAttribute="TaskForm" class="form-horizontal" role="form" name="form">
+                        <form:form action="/form/saveTask?project=${projectId}" modelAttribute="TaskForm" class="form-horizontal" role="form" name="form">
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label for="title" class="control-label">Title</label>

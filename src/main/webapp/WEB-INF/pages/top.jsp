@@ -34,7 +34,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="index" target="_top">${request.projectName}</a>
+            <a class="navbar-brand" href="/projects/${project.id}" target="_top">${project.name}</a>
 
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -82,7 +82,7 @@
                 <a href="/form/editProject/0" target="_top">New project</a>
             </li>
            <li class="hidden" id="taskButt">
-                <a href="/form/editTask/0" target="_top">New task</a>
+                <a href="/form/createTask/${project.id}" target="_top">New task</a>
             </li>
 
         </ul>

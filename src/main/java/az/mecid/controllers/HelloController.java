@@ -1,6 +1,7 @@
 package az.mecid.controllers;
 
 import az.mecid.hiberdemo.AdsDao;
+import az.mecid.models.Project;
 import az.mecid.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,11 +24,13 @@ public class HelloController {
 
         return "redirect:/"+name;
     }                         */
- @RequestMapping(value = {"/topFromProj}","topFromProj"},method = RequestMethod.GET)
- public ModelAndView top(){
+ @RequestMapping(value = {"/topFromProj}","topFromProj"})
+ public ModelAndView top(@RequestParam("project") int projectId){
      ModelAndView mav=new ModelAndView("top");
-      System.out.println("here");
+    // System.out.println(text);
      mav.addObject("isProjectPage", true);
+     Project project=adsDao.getProjectById(projectId);
+     mav.addObject("project",project);
      return mav;
  }
 
@@ -61,9 +64,9 @@ public class HelloController {
 
 
     @RequestMapping(value = "getUsers/{from}")
-    public ModelAndView getUsers (@PathVariable("from") String projectName){
+    public ModelAndView getUsers (@PathVariable("from") int projectId){
         ModelAndView mav=new ModelAndView("users");
-        List<User> usersList=adsDao.getUsers(projectName);
+        List<User> usersList=adsDao.getUsers(projectId);
         mav.addObject("usersList",usersList);
 
         return mav;
