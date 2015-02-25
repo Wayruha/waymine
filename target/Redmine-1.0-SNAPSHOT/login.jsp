@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<a href="<c:url value="/index" />">
+<a href="<c:url value="/" />">
     <spring:message code="label.contacts" />
 </a><br/>
 

@@ -23,6 +23,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Controller
 @RequestMapping(value="/form")
 public class FormController {
@@ -44,6 +46,8 @@ public class FormController {
             mav.addObject("project",savePrjForm);
         } else mav.addObject("project",new ProjectForm());
 
+
+
         return mav;
     }
 
@@ -58,7 +62,7 @@ public class FormController {
         } */
        if(!adsDao.isProjectByTitle(saveForm.getTitle()))
        {
-           User manager=adsDao.getUserByLogin(saveForm.getManager()).get(0);
+           User manager=adsDao.getUserByLogin(saveForm.getManager());
            Project newProj=new Project(saveForm,manager);
            adsDao.save(newProj);
          //  adsDao.save(newProj.getManager());
@@ -119,7 +123,8 @@ public class FormController {
 
             adsDao.save(newTask);
             for(int i=0;i<arrUsers.length;i++){
-                 User user= adsDao.getUserByLogin(arrUsers[i].trim()).get(0);
+                 User user= adsDao.getUserByLogin(arrUsers[i].trim())
+                         ;
                 System.out.println(arrAccesses[i]);
                  Access access=Access.valueOf(arrAccesses[i].trim());
                  Task_User t_u=new Task_User(newTask,user,access);

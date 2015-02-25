@@ -1,5 +1,7 @@
 package az.mecid.models;
 
+import az.mecid.enums.Role;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
@@ -27,12 +29,35 @@ public class User implements DataEntity {
     @Column(name="e_mail")
     private String eMail;
 
+    @Column(name="role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(name="enabled")
+    private boolean enabled=true;
 
     @OneToMany(mappedBy="manager",fetch = FetchType.EAGER)
     private List<Project> projectList;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private Set<Task_User> taskAndUserList;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
 
     public Set<Task_User> getTaskAndUserList() {
@@ -101,4 +126,5 @@ public class User implements DataEntity {
       public User(){
 
       }
+
 }

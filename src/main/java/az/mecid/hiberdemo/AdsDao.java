@@ -1,6 +1,7 @@
 package az.mecid.hiberdemo;
 
 
+import az.mecid.enums.ProjectType;
 import az.mecid.models.*;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -21,6 +22,17 @@ public class AdsDao extends HibernateDaoSupport {
         return getHibernateTemplate().get(Project.class, id);
     }
 
+    public List<Project> getProjectsForUser(String login) {
+        User user =  getUserByLogin(login);
+        List<Task_User> t_uList=getTasksByUser(user.getId());
+        List<Project> open_projectsList=new ArrayList<Project>();
+        open_projectsList.addAll((List<Project>) getHibernateTemplate().find("SELECT project FROM Project as project WHERE project.type=?", ProjectType.Public));
+
+        for(Task_User t_u: t_uList)
+           if(!open_projectsList.contains(t_u.getTask().getProject())) open_projectsList.add(t_u.getTask().getProject());
+
+        return open_projectsList;
+    }
 
     public boolean isProjectByTitle(String title){    //TODO
           List<Project>list=(List<Project>)getHibernateTemplate().find("select project FROM Project as project WHERE project.name=?",title);
@@ -36,11 +48,11 @@ public class AdsDao extends HibernateDaoSupport {
 
 
     public User getUserById(int id){
-        return getHibernateTemplate().get(User.class, id);
+        return  getHibernateTemplate().get(User.class, id);
     }
 
-    public List<User> getUserByLogin(String login){
-        return (List<User>)getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login);
+    public User getUserByLogin(String login){
+        return (User) getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login).get(0);
     }
 
 
