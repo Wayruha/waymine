@@ -1,5 +1,6 @@
 <%@ page import="az.mecid.models.Project" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -44,12 +45,14 @@
                 <li class="">
                     <a href="/userinfo/1" target="_top">Users</a>
                 </li>
-                <li class="">
-                    <a href="/form/editProject/0" target="_top">New project</a>
-                </li>
-                <li class="" id="taskButt">
-                    <a href="/form/createTask/${task.project.id}" target="_top">New task</a>
-                </li>
+                <sec:authorize url="/form">
+                    <li class="">
+                        <a href="/form/editProject/0" target="_top">New project</a>
+                    </li>
+                    <li class="" id="taskButt">
+                        <a href="/form/createTask/${project.id}" target="_top">New task</a>
+                    </li>
+                </sec:authorize>
 
             </ul>
         </div>

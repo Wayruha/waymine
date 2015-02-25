@@ -2,9 +2,7 @@ package az.mecid.controllers;
 
 import az.mecid.enums.TaskStatus;
 import az.mecid.hiberdemo.AdsDao;
-import az.mecid.models.Comment;
-import az.mecid.models.Project;
-import az.mecid.models.Task;
+import az.mecid.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +21,12 @@ public class projectURIController {
     @Autowired
     private AdsDao adsDao;
 
-    @RequestMapping(value = "",method = RequestMethod.GET)
-    public ModelAndView base(){
-        List<Project> projectsList = adsDao.getAllProjects();
+    @RequestMapping(value = "",method = RequestMethod.GET)        //    добавити в параметри методу. Доступ до імені користувача
+    public ModelAndView base(Principal principal ){
         ModelAndView mav=new ModelAndView("base");
+        List<Project> projectsList=adsDao.getProjectsForUser(principal.getName());
         mav.addObject("projectsList",projectsList);
+
         return mav;
     }
 
@@ -63,13 +63,28 @@ public class projectURIController {
     public void taskListSort(List<Task> taskList)
     {
        List<Task> secondList=new ArrayList<Task>();
-       for(Task task:taskList)
-
+       for(int i=0;i<taskList.size();i++){
+            Task task=taskList.get(i);
            if(task.getStatus()== TaskStatus.Done){
-               //taskList.remove(task);
-              // secondList.add(task);
-           } //taskList.addAll(secondList);
-       }                                    //Або ж вернути новий таскЛіст, якшо будуть трабли
+               taskList.remove(task);
+               secondList.add(task);
+           }
+
+       }
+   /*     synchronized (taskList){
+        Iterator<Task> it = taskList.iterator();
+          while(it.hasNext()){
+            Task task = it.next();
+            if(task.getStatus().equals(TaskStatus.Done)){
+                taskList.remove(task);
+                secondList.add(task);
+            }
+          }
+
+        }   */
+    taskList.addAll(secondList);
+
+    }                                    //Або ж вернути новий таскЛіст, якшо будуть трабли
 
 
 }
