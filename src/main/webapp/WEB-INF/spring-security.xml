@@ -20,9 +20,8 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <authentication-manager>
         <authentication-provider>
-            <jdbc-user-service data-source-ref="dataSource"
-                               users-by-username-query="select login,password, enabled from _user where login=?"
-                               authorities-by-username-query="select login, role from _user where login =?  " />
+          <user name="roma" password="123"></user>
+            <user name="lena" password="123"></user>
         </authentication-provider>
     </authentication-manager>
 
