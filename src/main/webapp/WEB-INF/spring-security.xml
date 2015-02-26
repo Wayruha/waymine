@@ -9,7 +9,7 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
         <intercept-url pattern="/index*" access="ROLE_USER,ROLE_ANONYMOUS" />
         <intercept-url pattern="/form*" access="ROLE_ADMIN, ROLE_MODERATOR" />
         <intercept-url pattern="/delete/*" access="ROLE_ADMIN" />
-        <intercept-url pattern="/projects*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
+        <intercept-url pattern="/froms*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
         <form-login login-page="/login.jsp" default-target-url="/projects"
                     authentication-failure-url="/login.jsp?error=true" />
         <logout logout-url="/logout" logout-success-url="/index" />
@@ -22,6 +22,7 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
         <authentication-provider>
           <user name="roma" password="123"></user>
             <user name="lena" password="123"></user>
+            <user name="anonymous" password="123"></user>
         </authentication-provider>
     </authentication-manager>
 
