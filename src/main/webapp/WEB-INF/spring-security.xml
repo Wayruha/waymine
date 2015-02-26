@@ -16,7 +16,8 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />
         <remember-me />
     </http>
-
+        new text
+    new line
 
     <authentication-manager>
         <authentication-provider>
