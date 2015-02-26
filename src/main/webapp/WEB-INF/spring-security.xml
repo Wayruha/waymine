@@ -9,20 +9,21 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
         <intercept-url pattern="/index*" access="ROLE_USER,ROLE_ANONYMOUS" />
         <intercept-url pattern="/form*" access="ROLE_ADMIN, ROLE_MODERATOR" />
         <intercept-url pattern="/delete/*" access="ROLE_ADMIN" />
-        <intercept-url pattern="/froms*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
+        <intercept-url pattern="/projects*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
         <form-login login-page="/login.jsp" default-target-url="/projects"
                     authentication-failure-url="/login.jsp?error=true" />
         <logout logout-url="/logout" logout-success-url="/index" />
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />
         <remember-me />
+
     </http>
 
 
     <authentication-manager>
         <authentication-provider>
-          <user name="roma" password="123"></user>
-            <user name="lena" password="123"></user>
-            <user name="anonymous" password="123"></user>
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="select login,password, enabled from _user where login=?"
+                               authorities-by-username-query="select login, role from _user where login =?  " />
         </authentication-provider>
     </authentication-manager>
 
