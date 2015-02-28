@@ -22,7 +22,7 @@ public class projectURIController {
     private AdsDao adsDao;
 
     @RequestMapping(value = "",method = RequestMethod.GET)        //    добавити в параметри методу. Доступ до імені користувача
-    public ModelAndView base(Principal principal ){
+    public ModelAndView base(Principal principal){
         ModelAndView mav=new ModelAndView("base");
         List<Project> projectsList=adsDao.getProjectsForUser(principal.getName());
         mav.addObject("projectsList",projectsList);

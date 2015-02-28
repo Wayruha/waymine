@@ -31,9 +31,7 @@ public class UserController {
     public ModelAndView getUsers (@PathVariable("from") int projectId){
         ModelAndView mav=new ModelAndView("users");
         List<User> usersList=adsDao.getUsers(projectId);
-        System.out.println(" На сторінці ПРОЕКТУ юзери в нас "+usersList.size());
         mav.addObject("usersList",usersList);
-
         return mav;
     }
     @RequestMapping(value = "getUsersInTask/{from}")

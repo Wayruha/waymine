@@ -35,33 +35,26 @@
             </button>
 
             <a class="navbar-brand" href="/projects/${project.id}" target="_top">${project.name}</a>
+            <c:if test="${empty project.name}"><a class="navbar-brand" href="/base" target="_top">WayMine</a></c:if>
 
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right" style=""></ul>
             <div class="row text-left" style="" draggable="true">
                 <div class="col-md-4 col-md-offset-5" style="" draggable="true">
-                    <div class="col-md-12 text-center" draggable="true">
-                        <form class="form-vertical" role="form" style="">
-                            <div class="form-group">
-                                <div class="col-sm-5">
-                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                                </div>
+                    <div class="col-md-4 col-md-offset-5 text-right" draggable="true">
+                     <br>Hello, <b><u>${login}</u></b>
+                    </div>
+                    <div class="col-md-3 text-center" draggable="true">
+                        <br>
+                         <div class="form-group">
+                           <div class="col-sm-2">
+                               <a href="/logout" target="_top" type="submit" class="btn btn-info btn-sm">Logout</a>
                             </div>
-                            <div class="form-group" draggable="true">
-                                <div class="col-sm-5">
-                                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-2">
-                                    <button type="submit" class="btn btn-default">Sign in</button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-                <a class="btn btn-info col-sm-1 pull-right" draggable="true">Admin</a>
+                <a class="btn btn-info btn-sm col-sm-1 pull-right" draggable="true">Admin</a>
             </div>
         </div>
     </div>

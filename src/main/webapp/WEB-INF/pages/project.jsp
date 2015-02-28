@@ -36,20 +36,22 @@
                 <li class="">
                     <a href="/home" target="_top">Home</a>
                 </li>
-                <li class="">
-                    <a href="/projects" target="_top">Projects</a>
+                <li>
+                        <a href="/projects" target="_top">Projects</a>
                 </li>
-                <li class="">
-                    <a href="/userinfo/1" target="_top">Users</a>
-                </li>
+
                 <sec:authorize url="/form">
-                    <li class="">
-                        <a href="/form/editProject/0" target="_top">New project</a>
-                    </li>
-                    <li class="" id="taskButt">
+                <li class="pull-right" id="taskButt">
                     <a href="/form/createTask/${project.id}" target="_top">New task</a>
                 </li>
+
+                <li class="pull-right">
+                    <a href="/form/editProject/0" target="_top">New project</a>
+                </li>
                 </sec:authorize>
+                <li class="pull-right">
+                    <a href="/userinfo/1" target="_top">Users</a>
+                </li>
             </ul>
         </div>
     </div>

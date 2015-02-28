@@ -131,6 +131,7 @@
 
                             <input type="hidden" id="userList" name="userList">
                             <input type="hidden" id="accessList" name="accessList">
+                            <input type="hidden" id="login" name="creator" value="${login}">
    <!--- -->               <a class="btn btn-primary btn-large" onclick="convertUserList();document.forms['form'].submit();">Save</a>
                         </form:form>
                     </div>

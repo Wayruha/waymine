@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,18 +25,21 @@ public class HelloController {
         return "redirect:/"+name;
     }                         */
  @RequestMapping(value = {"/topFromProj}","topFromProj"})
- public ModelAndView top(@RequestParam("project") int projectId){
+ public ModelAndView top(@RequestParam("project") int projectId,Principal principal){
      ModelAndView mav=new ModelAndView("top");
     // System.out.println(text);
      mav.addObject("isProjectPage", true);
      Project project=adsDao.getProjectById(projectId);
      mav.addObject("project",project);
+     mav.addObject("login",principal.getName());
      return mav;
  }
 
     @RequestMapping(value = {"/{page}","{page}"},method = RequestMethod.GET)
-    public String to(@PathVariable("page") String pageName){
-        return pageName;
+    public ModelAndView to(@PathVariable("page") String pageName,Principal principal){
+        ModelAndView mav=new ModelAndView(pageName);
+        mav.addObject("login",principal.getName());
+        return mav;
     }
 
 

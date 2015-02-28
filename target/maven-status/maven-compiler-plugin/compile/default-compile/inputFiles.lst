@@ -5,10 +5,12 @@ D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\models\User.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\controllers\projectURIController.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\enums\Access.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\models\Comment.java
+D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\hiberdemo\CustomUserDetailsService.java
+D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\enums\Role.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\enums\TaskStatus.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\controllers\product.java
-D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\models\Project.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\enums\ProjectType.java
+D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\models\Project.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\controllers\UserController.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\controllers\HelloController.java
 D:\Рома\Java\Проекти\Redmine\src\main\java\az\mecid\models\Task.java
