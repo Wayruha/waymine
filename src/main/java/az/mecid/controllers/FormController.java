@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,12 @@ public class FormController {
     private AdsDao adsDao;
 
     @RequestMapping(value = "/editProject/{projectId}")
-    public ModelAndView editProj(@PathVariable("projectId") int projectId){
+    public ModelAndView editProj(@PathVariable("projectId") int projectId,Principal principal){
         ModelAndView mav=new ModelAndView("editProj");
         List<ProjectType> listForRadio=new ArrayList<ProjectType>();
         listForRadio.add(ProjectType.Private);
         listForRadio.add(ProjectType.Public);
+        mav.addObject("login",principal.getName());
         mav.addObject("radioTypeList",listForRadio);
         if(projectId>0){
             Project proj=adsDao.getProjectById(projectId);
@@ -74,12 +76,13 @@ public class FormController {
     }
 
     @RequestMapping(value = "/editTask/{taskId}")
-    public ModelAndView editTask(@PathVariable("taskId") int taskId){
+    public ModelAndView editTask(@PathVariable("taskId") int taskId,Principal principal){
         ModelAndView mav=new ModelAndView("editTask");
         List<User> userList=adsDao.getUsers(0);
         System.out.println("Бляха ніфіга не понятно!");
         System.out.println(userList.size()+" Розмір юзер Лсту");
         mav.addObject("userList",userList);
+        mav.addObject("login",principal.getName());
         if(taskId>0){
             Task task=adsDao.getTaskById(taskId);
             TaskForm taskForm=new TaskForm(task);
@@ -115,7 +118,7 @@ public class FormController {
             String[] arrUsers=saveForm.getUserList().split(" %%");
             String[] arrAccesses=saveForm.getAccessList().split(" %%");
             List<Task_User> userList= new ArrayList<Task_User>();
-
+            System.out.println("creator"+saveForm.getCreator());                                  /////////////
             Task newTask=new Task(saveForm);
             newTask.setProject(adsDao.getProjectById(projectId));
                   Date date=new Date(new java.util.Date().getTime());
@@ -123,10 +126,8 @@ public class FormController {
 
             adsDao.save(newTask);
             for(int i=0;i<arrUsers.length;i++){
-                 User user= adsDao.getUserByLogin(arrUsers[i].trim())
-                         ;
-                System.out.println(arrAccesses[i]);
-                 Access access=Access.valueOf(arrAccesses[i].trim());
+                 User user= adsDao.getUserByLogin(arrUsers[i].trim());
+                Access access=Access.valueOf(arrAccesses[i].trim());
                  Task_User t_u=new Task_User(newTask,user,access);
                  adsDao.save(t_u);
             }

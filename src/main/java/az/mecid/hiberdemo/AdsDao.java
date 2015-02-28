@@ -57,17 +57,26 @@ public class AdsDao extends HibernateDaoSupport {
 
 
     public List<User> getUsers (int projectId){
-        System.out.println("АДС ДАО прийнтяний ПРОДЖЕКТ ІД "+projectId);
-      if(projectId==0)
-
-          return getHibernateTemplate().loadAll(User.class);
+        if(projectId==0)
+            return getHibernateTemplate().loadAll(User.class);
       else
       {
           List<Task> taskList=getTasksInProject(projectId);
           List<User> userList=new ArrayList<User>();
+          List<User>taskUserList=new ArrayList<User>();
+          List<String> loginList=new ArrayList<String>();
           for(Task task: taskList)
           {
-              userList.addAll((List<User>) getHibernateTemplate().find("select user from Task_User as t_u  INNER JOIN t_u.user as user WHERE t_u.task=?",task ));
+              taskUserList=((List<User>) getHibernateTemplate().find("select user from Task_User as t_u  INNER JOIN t_u.user as user WHERE t_u.task=?",task ));
+              for(User user:taskUserList)
+              {          System.out.println(user.getLogin());
+                  if(!loginList.contains(user.getLogin()))
+                  {
+                      loginList.add(user.getLogin());
+                      userList.add(user);
+                  }
+
+              }
           }
           return userList;
       }

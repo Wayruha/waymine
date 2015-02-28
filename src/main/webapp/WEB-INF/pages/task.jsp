@@ -50,7 +50,7 @@
                         <a href="/form/editProject/0" target="_top">New project</a>
                     </li>
                     <li class="" id="taskButt">
-                        <a href="/form/createTask/${project.id}" target="_top">New task</a>
+                        <a href="/form/createTask/${task.project.id}" target="_top">New task</a>
                     </li>
                 </sec:authorize>
 
@@ -109,7 +109,7 @@
                         <p style="text-align: left;vertical-align: top"> <font size="2" color="#a9a9a9">Have been working for 122hours </font></p> <p style="text-align: right">Mark as done</p>
     </div>
 </div>
-<iframe src="/getUsers/${task.project.id}"  style="border:0px; margin: 20px 0px 0px 0px; height: 600px;"/> <!-- USERS    -->
+<iframe src="/getUsersInTask/${task.id}"  style="border:0px; margin: 20px 0px 0px 0px; height: 600px;"/> <!-- USERS    -->
 </div>
         </div>
     </div>

@@ -53,7 +53,6 @@ public class Task implements DataEntity {
         this.status=taskForm.getStatus();
         this.creator=taskForm.getCreator();
 
-       // this.use=taskForm.getUserList();
     }
 
     public String getDescription() {
