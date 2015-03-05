@@ -77,24 +77,29 @@ public class FormController {
 
     @RequestMapping(value = "/editTask/{taskId}")
     public ModelAndView editTask(@PathVariable("taskId") int taskId,Principal principal){
-        ModelAndView mav=new ModelAndView("editTask");
+        Task task=adsDao.getTaskById(taskId);
+        TaskForm taskForm=new TaskForm(task);
+        ModelAndView mav=new ModelAndView("editTask","TaskForm",taskForm);
         List<User> userList=adsDao.getUsers(0);
-        System.out.println("Бляха ніфіга не понятно!");
-        System.out.println(userList.size()+" Розмір юзер Лсту");
-        mav.addObject("userList",userList);
+        List<Task_User> t_uList=adsDao.getUserRoleInTask(taskId);
+        mav.addObject("userList",userList);                     // Цюс трічку впринципі можна викидати, і юзати тільки Т_УЛІст
+        mav.addObject("t_uList",t_uList);
         mav.addObject("login",principal.getName());
         if(taskId>0){
-            Task task=adsDao.getTaskById(taskId);
-            TaskForm taskForm=new TaskForm(task);
+
             mav.addObject("task",taskForm);
+            mav.addObject("projectId",task.getProject().getId());
+            mav.addObject("editing",true);
+
         } else mav.addObject("project",new TaskForm());
 
         return mav;
     }
     @RequestMapping(value = "/createTask/{projectId}")
-    public ModelAndView createTask(@PathVariable("projectId") int projectId){
+    public ModelAndView createTask(@PathVariable("projectId") int projectId,Principal principal){
         ModelAndView mav=new ModelAndView("editTask");
         List<User> userList=adsDao.getUsers(projectId);
+        mav. addObject("login",principal.getName());
         mav.addObject("userList",userList);
         mav.addObject("task",new TaskForm());
         mav.addObject("projectId",projectId);
@@ -112,9 +117,10 @@ public class FormController {
             System.out.println("Якісь помилки при заповненні сталися. перенаправляє назад на ЕдітПродж");
             return new ModelAndView("editProj");
         } */
-
-        if(!adsDao.isTaskByTitle(saveForm.getTitle()))
+        ModelAndView mav=new ModelAndView();
+        if(!adsDao.isTaskByTitle(saveForm.getTitle()) || saveForm.getEditing()!=null)
         {
+
             String[] arrUsers=saveForm.getUserList().split(" %%");
             String[] arrAccesses=saveForm.getAccessList().split(" %%");
             List<Task_User> userList= new ArrayList<Task_User>();
@@ -126,6 +132,7 @@ public class FormController {
 
             adsDao.save(newTask);
             for(int i=0;i<arrUsers.length;i++){
+                System.out.println(arrUsers[i]+" - Один з користувачів");
                  User user= adsDao.getUserByLogin(arrUsers[i].trim());
                 Access access=Access.valueOf(arrAccesses[i].trim());
                  Task_User t_u=new Task_User(newTask,user,access);
@@ -134,7 +141,9 @@ public class FormController {
             return "redirect:/projects/"+projectId;
         } else {
             //Зробити ЕРОРИ
-
+            System.out.println("Виникли трабли. Повернули назад на сторінку");
+            mav.setViewName("editTask");
+            mav.addObject("projectId", projectId);
             return "redirect:/form/createTask/"+projectId;
         }
     }

@@ -11,11 +11,24 @@ public class TaskForm {
     private String userList;
     private String accessList;
     private User creator;
+    private String editing;
 
     public TaskForm() {
     }
     public TaskForm(Task task) {
+        this.title=task.getTitle();
+        this.description=task.getDescription();
+    //    this.status=task.getStatus();
     }
+
+    public String getEditing() {
+        return editing;
+    }
+
+    public void setEditing(String editing) {
+        this.editing = editing;
+    }
+
 
     public String getAccessList() {
         return accessList;

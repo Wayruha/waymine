@@ -53,9 +53,9 @@ public class projectURIController {
     }
 
     @RequestMapping(value="addComment",method = RequestMethod.GET)
-    public String addComment(@RequestParam("taskId") int taskId, @RequestParam("login") String login, @RequestParam("text") String text){
+    public String addComment(@RequestParam("taskId") int taskId, @RequestParam("text") String text, Principal principal){
         Task task=adsDao.getTaskById(taskId);
-        Comment comm=new Comment(task,login,text);
+        Comment comm=new Comment(task,principal.getName(),text);
         adsDao.save(comm);
        return "redirect:/projects/task/"+taskId;
     }
@@ -71,17 +71,6 @@ public class projectURIController {
            }
 
        }
-   /*     synchronized (taskList){
-        Iterator<Task> it = taskList.iterator();
-          while(it.hasNext()){
-            Task task = it.next();
-            if(task.getStatus().equals(TaskStatus.Done)){
-                taskList.remove(task);
-                secondList.add(task);
-            }
-          }
-
-        }   */
     taskList.addAll(secondList);
 
     }                                    //Або ж вернути новий таскЛіст, якшо будуть трабли

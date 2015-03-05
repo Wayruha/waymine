@@ -28,13 +28,14 @@
             imgMinus.align="right";
             imgMinus.src="data/minus.png";
             imgMinus.name=userId;
+            imgMinus.onclick=returnToUl;
             select.options[0]=new Option("Owner","<%=Access.Owner%>");
             select.options[1]=new Option("Observer","<%=Access.Owner%>");
             pre.appendChild(node);// Забрать
             pre.appendChild(select);
             pre.appendChild(imgMinus)
             list.appendChild(pre);
-            imgMinus.onclick=returnToUl;
+
             removeFromUl(userId);
         }
         function removeFromUl(userId){
@@ -61,10 +62,24 @@
             document.getElementById("userList").value=usersString;
             document.getElementById("accessList").value=accessString;
         }
+
+        function loadUserAccess(){
+            var list=document.getElementById("listOfUsers");
+            var ulUsers=document.getElementById("ulUsers");
+            var  PREs=list.getElementsByTagName("pre");
+            Array.prototype.forEach.call(PREs,function(el) {
+                var userId=el.childNodes[3].name;                          // text+=el.childNodes[0].nodeValue;
+                el.childNodes[3].onclick=returnToUl;
+                var li=document.getElementById(userId);
+                  var bdg=document.getElementById("badge/"+userId);
+                  li.firstElementChild.style.visibility="hidden";
+                 bdg.style.visibility="hidden";
+            });
+        }
     </script>
 </head>
 
-<body class="" >
+<body onload="loadUserAccess();">
 <iframe src="/topFromProj?project=${projectId}" width="100%" height="90px" scrolling="no" border="0px"></iframe>
 <div class="container">
     <div class="row">
@@ -76,14 +91,15 @@
                 <li class="">
                     <a href="/projects" target="_top">Projects</a>
                 </li>
-                <li class="">
-                    <a href="/userinfo/1" target="_top">Users</a>
+                <li class="pull-right" id="taskButt">
+                    <a href="/form/createTask/${projectId}" target="_top">New task</a>
                 </li>
-                <li class="">
+                <li class="pull-right">
                     <a href="/form/editProject/0" target="_top">New project</a>
                 </li>
-                <li class="" id="taskButt">
-                    <a href="/form/createTask/${projectId}" target="_top">New task</a>
+
+                <li class="pull-right">
+                    <a href="/userinfo/1" target="_top">Users</a>
                 </li>
 
             </ul>
@@ -105,7 +121,7 @@
                                     <label for="title" class="control-label">Title</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <form:input path="title" class="form-control" id="title"/>
+                                    <form:input path="title" class="form-control" id="title" />
                                 </div>
                             </div>
                             <hr>
@@ -124,7 +140,13 @@
                                     <label for="description" class="control-label">Add users</label>
                                 </div>
                                 <div class="col-sm-6" id="listOfUsers">
+                                     <c:forEach items="${t_uList}" var="t_u">
+                                         <pre>${t_u.user.login}&nbsp;&nbsp;&nbsp;&nbsp;<select>
+                                             <option value="<%=Access.Owner%>" title="Owner"<c:if test="${t_u.access=='Owner'}">selected="selected" </c:if>>Owner </option>
+                                             <option value="<%=Access.Observer%>" title="Observer" <c:if test="${t_u.access=='Observer'}">selected="selected"</c:if>>Observer</option>
+                                         </select>   <img src="data/minus.png" align="right" name="${t_u.user.id}" /> </pre>
 
+                                     </c:forEach>
                                 </div>
                             </div>
                             <hr>
@@ -133,17 +155,20 @@
                             <input type="hidden" id="accessList" name="accessList">
                             <input type="hidden" id="login" name="creator" value="${login}">
    <!--- -->               <a class="btn btn-primary btn-large" onclick="convertUserList();document.forms['form'].submit();">Save</a>
+                            <c:if test="${editing}"><input type="hidden" value="editing" path="editing"></c:if>
                         </form:form>
                     </div>
                 </div>
                 <div class="col-md-3 pull-left" id="block">
                    <br/>
                     <ul class="lead list-group" id="ulUsers">
+
                             <c:forEach items="${userList}" var="user">
-                                <li class="list-group-item" id="${user.id}"><a href="/userinfo/${user.id}"  target="_top" >${user.login}</a>
+                                    <li class="list-group-item" id="${user.id}"><a href="/userinfo/${user.id}"  target="_top" >${user.login}</a>
                                     <span class="badge"  id="badge/${user.id}"><img src="data/plus.png" onclick="addToManagedUsers(${user.id})"/></span>
                                 </li>
                             </c:forEach>
+
 
                         </ul>
 

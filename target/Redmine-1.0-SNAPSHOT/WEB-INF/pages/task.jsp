@@ -102,7 +102,7 @@
                                     <td padding="20" style="margin-right:30px" ><textarea class="form-control" name="text" id="textarea" type="text" placeholder="Leave your comment" rows="4" onfocus="this.value=''"></textarea>    </td>
                                     <td style="width: 10%; padding:30px"><input type="submit" class="btn-lg" style="" value="Post"></td>
                                     <input type="hidden" name="taskId" value="${task.id}">
-                                    <input type="hidden" name="login" value="LOGIN">
+
                                 </tr>
                             </table>
                         </form>

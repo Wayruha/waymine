@@ -24,8 +24,9 @@ public class HelloController {
 
         return "redirect:/"+name;
     }                         */
- @RequestMapping(value = {"/topFromProj}","topFromProj"})
+ @RequestMapping(value = {"/topFromProj","topFromProj"})
  public ModelAndView top(@RequestParam("project") int projectId,Principal principal){
+     System.out.println("Прийняли проджектІд "+projectId);
      ModelAndView mav=new ModelAndView("top");
     // System.out.println(text);
      mav.addObject("isProjectPage", true);

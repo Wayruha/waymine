@@ -69,7 +69,7 @@ public class AdsDao extends HibernateDaoSupport {
           {
               taskUserList=((List<User>) getHibernateTemplate().find("select user from Task_User as t_u  INNER JOIN t_u.user as user WHERE t_u.task=?",task ));
               for(User user:taskUserList)
-              {          System.out.println(user.getLogin());
+              {
                   if(!loginList.contains(user.getLogin()))
                   {
                       loginList.add(user.getLogin());
@@ -81,6 +81,12 @@ public class AdsDao extends HibernateDaoSupport {
           return userList;
       }
    }
+
+    public  List<Task_User> getUserRoleInTask (int taskId) {
+        List<Task_User> t_uList=new ArrayList<Task_User>();
+        t_uList=(List<Task_User>) getHibernateTemplate().find("SELECT t_u FROM Task_User as t_u WHERE t_u.task.id=?",taskId);
+        return t_uList;
+    }
 
     public List<User> getUsersInTask (int taskId){
             List<User> userList=new ArrayList<User>();
