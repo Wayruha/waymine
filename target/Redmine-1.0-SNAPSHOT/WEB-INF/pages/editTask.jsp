@@ -123,6 +123,13 @@
                                 <div class="col-sm-6">
                                     <form:input path="title" class="form-control" id="title" />
                                 </div>
+                                <div class="col-sm-4">
+                                    <c:if test="${error=='title'}">
+                                        <font color="red">
+                                            This title is already in use
+                                             </font>
+                                    </c:if>
+                                </div>
                             </div>
                             <hr>
                             <div class="form-group">
@@ -150,12 +157,17 @@
                                 </div>
                             </div>
                             <hr>
-
+                           <%-- <c:if test="${error=='true'}">
+                                <font color="red">
+                                    The error was happen. Please, try again
+                                </font>
+                            </c:if>--%>
                             <input type="hidden" id="userList" name="userList">
                             <input type="hidden" id="accessList" name="accessList">
                             <input type="hidden" id="login" name="creator" value="${login}">
    <!--- -->               <a class="btn btn-primary btn-large" onclick="convertUserList();document.forms['form'].submit();">Save</a>
                             <c:if test="${editing}"><input type="hidden" value="editing" path="editing"></c:if>
+
                         </form:form>
                     </div>
                 </div>
