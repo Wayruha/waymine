@@ -25,7 +25,7 @@
 </head>
 
 <body style="border: 0px;" onload="resizing()">
-<iframe src="top" width="100%" height="90px" scrolling="no" border="0px"></iframe>
+<iframe src="/top" width="100%" height="90px" scrolling="no" border="0px"></iframe>
 <div class="container">
     <div class="row">
         <div class="col-md-12 " >
@@ -36,14 +36,15 @@
                 <li class="active">
                     <a href="/projects" target="_top">Projects</a>
                 </li>
-                <li class="">
-                    <a href="/userinfo/1" target="_top">Users</a>
-                </li>
+
                 <sec:authorize url="/form">
-                <li class="">
+                <li class="pull-right">
                     <a href="/form/editProject/0" target="_top">New project</a>
                 </li>
                 </sec:authorize>
+                <li class="pull-right">
+                    <a href="/userinfo/1" target="_top">Users</a>
+                </li>
                 <li class="hidden" id="taskButt">
                     <a href="/form/createTask/${project.id}" target="_top">New task</a>
                 </li>
@@ -63,7 +64,7 @@
                    <br>
                     <c:forEach items="${projectsList}" var="project">
                     <div class="well">
-                        <font size="5"><a  href="projects/${project.id}">${project.name}</a></font>
+                        <font size="5"><a  href="/projects/${project.id}">${project.name}</a></font>
                         <br>
                         <u>${project.description}</u>
                         <br>
