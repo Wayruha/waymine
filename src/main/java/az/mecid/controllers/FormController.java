@@ -96,13 +96,15 @@ public class FormController {
         return mav;
     }
     @RequestMapping(value = "/createTask/{projectId}")
-    public ModelAndView createTask(@PathVariable("projectId") int projectId,Principal principal){
+    public ModelAndView createTask(@PathVariable("projectId") int projectId,@RequestParam(required = false) String error,Principal principal){
+        System.out.println(error);
         ModelAndView mav=new ModelAndView("editTask");
         List<User> userList=adsDao.getUsers(projectId);
         mav. addObject("login",principal.getName());
         mav.addObject("userList",userList);
         mav.addObject("task",new TaskForm());
         mav.addObject("projectId",projectId);
+        mav.addObject("error",error);
 
         return mav;
     }
@@ -144,7 +146,7 @@ public class FormController {
             System.out.println("Виникли трабли. Повернули назад на сторінку");
             mav.setViewName("editTask");
             mav.addObject("projectId", projectId);
-            return "redirect:/form/createTask/"+projectId;
+            return "redirect:/form/createTask/"+projectId+"?error=title";
         }
     }
     @ModelAttribute("ProjectForm")
