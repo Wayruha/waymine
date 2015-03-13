@@ -58,12 +58,14 @@
             var list=document.getElementById("listOfUsers");
             var  PREs=list.getElementsByTagName("pre");
             var usersString="", accessString="";
-            Array.prototype.forEach.call(PREs,function(el) {usersString+=el.childNodes[0].nodeValue+"%%";accessString+=el.childNodes[1].selectedOptions.item(0).textContent+" %%"; });
+            Array.prototype.forEach.call(PREs,function(el) {usersString+=el.childNodes[0].nodeValue.substr(0,el.childNodes[0].nodeValue.length-4)+"--";accessString+=el.childNodes[1].selectedOptions.item(0).textContent+"--"; });
+
             document.getElementById("userList").value=usersString;
             document.getElementById("accessList").value=accessString;
         }
 
         function loadUserAccess(){
+
             var list=document.getElementById("listOfUsers");
             var ulUsers=document.getElementById("ulUsers");
             var  PREs=list.getElementsByTagName("pre");
@@ -71,9 +73,9 @@
                 var userId=el.childNodes[3].name;                          // text+=el.childNodes[0].nodeValue;
                 el.childNodes[3].onclick=returnToUl;
                 var li=document.getElementById(userId);
-                  var bdg=document.getElementById("badge/"+userId);
-                  li.firstElementChild.style.visibility="hidden";
-                 bdg.style.visibility="hidden";
+                var bdg=document.getElementById("badge/"+userId);
+                li.firstElementChild.style.visibility="hidden";
+                bdg.style.visibility="hidden";
             });
         }
     </script>
@@ -95,7 +97,7 @@
                     <a href="/form/createTask/${projectId}" target="_top">New task</a>
                 </li>
                 <li class="pull-right">
-                    <a href="/form/editProject/0" target="_top">New project</a>
+                    <a href="/form/createProject" target="_top">New project</a>
                 </li>
 
                 <li class="pull-right">
@@ -151,12 +153,14 @@
                                          <pre>${t_u.user.login}&nbsp;&nbsp;&nbsp;&nbsp;<select>
                                              <option value="<%=Access.Owner%>" title="Owner"<c:if test="${t_u.access=='Owner'}">selected="selected" </c:if>>Owner </option>
                                              <option value="<%=Access.Observer%>" title="Observer" <c:if test="${t_u.access=='Observer'}">selected="selected"</c:if>>Observer</option>
-                                         </select>   <img src="data/minus.png" align="right" name="${t_u.user.id}" /> </pre>
+                                             </select>   <img src="data/minus.png" align="right" name="${t_u.user.id}" />
+                                         </pre>
 
                                      </c:forEach>
                                 </div>
                             </div>
                             <hr>
+
                            <%-- <c:if test="${error=='true'}">
                                 <font color="red">
                                     The error was happen. Please, try again
@@ -165,24 +169,27 @@
                             <input type="hidden" id="userList" name="userList">
                             <input type="hidden" id="accessList" name="accessList">
                             <input type="hidden" id="login" name="creator" value="${login}">
+                            <input type="hidden" id="id" name="id" value="${taskId}">
+                            <input type="hidden" id="editing" path="editing" value="editing" name="editing">
    <!--- -->               <a class="btn btn-primary btn-large" onclick="convertUserList();document.forms['form'].submit();">Save</a>
                             <c:if test="${editing}"><input type="hidden" value="editing" path="editing"></c:if>
-
-                        </form:form>
+                        </form:form>      <c:if test="${error=='valid'}">
+                        <font color="red">
+                            Не правильно заповнені поля
+                        </font>
+                    </c:if>
                     </div>
                 </div>
                 <div class="col-md-3 pull-left" id="block">
                    <br/>
                     <ul class="lead list-group" id="ulUsers">
 
-                            <c:forEach items="${userList}" var="user">
-                                    <li class="list-group-item" id="${user.id}"><a href="/userinfo/${user.id}"  target="_top" >${user.login}</a>
-                                    <span class="badge"  id="badge/${user.id}"><img src="data/plus.png" onclick="addToManagedUsers(${user.id})"/></span>
+                            <c:forEach items="${t_uList}" var="t_u">
+                                    <li class="list-group-item" id="${t_u.user.id}"><a href="/userinfo/${t_u.user.id}"  target="_top" >${t_u.user.login}</a>
+                                    <span class="badge"  id="badge/${t_u.user.id}"><img src="data/plus.png" onclick="addToManagedUsers(${t_u.user.id})"/></span>
                                 </li>
                             </c:forEach>
-
-
-                        </ul>
+                    </ul>
 
                 </div>
             </div>

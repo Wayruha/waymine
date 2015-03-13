@@ -39,6 +39,7 @@ public class HelloController {
     @RequestMapping(value = {"/{page}","{page}"},method = RequestMethod.GET)
     public ModelAndView to(@PathVariable("page") String pageName,Principal principal){
         ModelAndView mav=new ModelAndView(pageName);
+        System.out.println(principal.getName());
         mav.addObject("login",principal.getName());
         return mav;
     }

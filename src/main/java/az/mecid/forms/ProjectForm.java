@@ -3,11 +3,23 @@ package az.mecid.forms;
 import az.mecid.enums.ProjectType;
 import az.mecid.models.Project;
 
+import javax.validation.constraints.Size;
+
 public class ProjectForm {
+    @Size(min=2, max=30, message = "Не має бути пустим")
     private String title;
     private String description;
     private String manager;
     private ProjectType type;
+    private String editing;
+
+    public String getEditing() {
+        return editing;
+    }
+
+    public void setEditing(String editing) {
+        this.editing = editing;
+    }
 
 
     public String getTitle() {

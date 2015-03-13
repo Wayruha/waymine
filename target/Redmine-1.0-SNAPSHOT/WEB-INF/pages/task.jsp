@@ -47,7 +47,7 @@
                 </li>
                 <sec:authorize url="/form">
                     <li class="">
-                        <a href="/form/editProject/0" target="_top">New project</a>
+                        <a href="/form/createProject" target="_top">New project</a>
                     </li>
                     <li class="" id="taskButt">
                         <a href="/form/createTask/${task.project.id}" target="_top">New task</a>
