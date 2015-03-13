@@ -159,7 +159,8 @@ public class FormController {
                 Task_User t_u=new Task_User();
                 t_u.setUser(adsDao.getUserByLogin(arrUsers[i]));
                 t_u.setTask(newTask);
-                t_u.setAccess(Access.valueOf(arrAccesses[i]));
+                System.out.println(arrAccesses[i]+"-");
+                t_u.setAccess(Access.valueOf(arrAccesses[i].trim()));
                 t_uList.add(t_u);
             }
             newTask.setTaskAndUserList(t_uList);
@@ -170,7 +171,7 @@ public class FormController {
 
             compareTwoObjects(oldTask,newTask, false,history);
 
-            adsDao.save(newTask);
+            adsDao.update(newTask);
             if(arrUsers.length>0)
             for(int i=0;i<arrUsers.length;i++){
                 User user= adsDao.getUserByLogin(arrUsers[i].trim());

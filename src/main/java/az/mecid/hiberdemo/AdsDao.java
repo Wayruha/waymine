@@ -13,6 +13,9 @@ public class AdsDao extends HibernateDaoSupport {
     public void save(DataEntity entity) {
         getHibernateTemplate().save(entity);
     }
+    public void update(DataEntity entity) {
+        getHibernateTemplate().update(entity);
+    }
 
     public List<Project> getAllProjects() {
         return getHibernateTemplate().loadAll(Project.class);

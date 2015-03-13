@@ -58,7 +58,7 @@
             var list=document.getElementById("listOfUsers");
             var  PREs=list.getElementsByTagName("pre");
             var usersString="", accessString="";
-            Array.prototype.forEach.call(PREs,function(el) {usersString+=el.childNodes[0].nodeValue.substr(0,el.childNodes[0].nodeValue.length-4)+"--";accessString+=el.childNodes[1].selectedOptions.item(0).textContent+"--"; });
+            Array.prototype.forEach.call(PREs,function(el) {usersString+=el.childNodes[0].nodeValue.substr(0,el.childNodes[0].nodeValue.length-4)+"--";accessString+=el.childNodes[1].selectedOptions.item(0).textContent.trim()+"--"; });
 
             document.getElementById("userList").value=usersString;
             document.getElementById("accessList").value=accessString;
