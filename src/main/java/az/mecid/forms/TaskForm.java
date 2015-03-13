@@ -2,15 +2,15 @@ package az.mecid.forms;
 
 import az.mecid.enums.TaskStatus;
 import az.mecid.models.Task;
-import az.mecid.models.User;
 
 public class TaskForm {
+   private int id;
     private String title;
     private String description;
     private TaskStatus status;
     private String userList;
     private String accessList;
-    private User creator;
+    private String creator;
     private String editing;
 
     public TaskForm() {
@@ -20,6 +20,15 @@ public class TaskForm {
         this.description=task.getDescription();
     //    this.status=task.getStatus();
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public String getEditing() {
         return editing;
@@ -38,11 +47,11 @@ public class TaskForm {
         this.accessList = accessList;
     }
 
-    public User getCreator() {
+    public String getCreator() {
         return creator;
     }
 
-    public void setCreator(User creator) {
+    public void setCreator(String creator) {
         this.creator = creator;
     }
 

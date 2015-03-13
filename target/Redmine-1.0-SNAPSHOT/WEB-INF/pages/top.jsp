@@ -35,7 +35,7 @@
             </button>
 
             <a class="navbar-brand" href="/projects/${project.id}" target="_top">${project.name}</a>
-            <c:if test="${empty project.name}"><a class="navbar-brand" href="/base" target="_top">WayMine</a></c:if>
+            <c:if test="${empty project.name}"><a class="navbar-brand" href="/projects" target="_top">WayMine</a></c:if>
 
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">

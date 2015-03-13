@@ -36,7 +36,7 @@
                     <a href="/userinfo/1" target="_top">Users</a>
                 </li>
                 <li class="active">
-                    <a href="/form/editProject/0" target="_top">New project</a>
+                    <a href="/form/createProject" target="_top">New project</a>
                 </li>
 
                 <li class="hidden" id="taskButt">
@@ -53,6 +53,11 @@
                     <br>
                     <font size="+3">Creating project</font>
                     <div class="well" style="border-radius:10px">
+                        <c:if test="${error=='valid'}">
+                            <font color="red">
+                                Не вірно заповнені поля
+                            </font>
+                        </c:if>
                      <form:form action="/form/saveProject" modelAttribute="ProjectForm" class="form-horizontal" role="form" name="form">
                        <!-- <form class="form-horizontal" role="form" action="/form/saveProjForm" method="GET" name="form">-->
                             <div class="form-group">
@@ -63,14 +68,23 @@
                                     <form:input path="title" class="form-control" id="title" placeholder="${project.title}"/>
                                   <!-- Сюди треба поставити перевірку чи можна вводити такі дані-->
                                 </div>
+                                <div class="col-sm-4">
+                                    <c:if test="${error=='title'}">
+                                        <font color="red">
+                                            This title is already in use
+                                        </font>
+                                    </c:if>
+                                    <form:errors path="title">asdasdasdasdasds</form:errors>
+                                </div>
                             </div>
+
                             <hr>
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label for="description" class="control-label">Description</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <form:input path="description" class="form-control" id="description" placeholder="${project.description}"/>
+                                    <form:textarea path="description" class="form-control" id="description" rows="8" placeholder="${project.description}"/>
 
                                 </div>
                             </div>
@@ -81,6 +95,13 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <form:input path="manager" class="form-control" id="manager"  placeholder="${project.manager}"/>
+                                </div>
+                                <div class="col-sm-4">
+                                    <c:if test="${error=='manager'}">
+                                    <font color="red">
+                                        This user did not find
+                                    </font>
+                                </c:if>
                                 </div>
                             </div>
                             <hr>
@@ -95,10 +116,12 @@
                             <hr>
 
                             <a class="btn btn-primary btn-large" onclick="document.forms['form'].submit();">Save</a>
-
+                            <c:if test="${editing}"><input type="hidden" value="editing" path="editing"></c:if>
                         <!--</form>-->
                          </form:form>
                      </div>
+
+
                 </div>
             </div>
         </div>

@@ -52,7 +52,12 @@ public class AdsDao extends HibernateDaoSupport {
     }
 
     public User getUserByLogin(String login){
+        System.out.println(login+" логін АДС ДАО");
         return (User) getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login).get(0);
+    }
+    public List<User> getUsersByLogin(String login){
+        System.out.println(getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login).size());
+        return (List<User>) getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login);
     }
 
 
@@ -111,7 +116,5 @@ public class AdsDao extends HibernateDaoSupport {
     public List<Comment> getCommentsInTask(int id){
         return (List<Comment>) getHibernateTemplate().find("SELECT comm FROM Comment as comm INNER JOIN comm.task as task WHERE task.id="+id+" ORDER BY task.id");
     }
-
-
 
 }

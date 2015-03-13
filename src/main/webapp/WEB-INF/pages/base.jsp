@@ -39,7 +39,7 @@
 
                 <sec:authorize url="/form">
                 <li class="pull-right">
-                    <a href="/form/editProject/0" target="_top">New project</a>
+                    <a href="/form/createProject" target="_top">New project</a>
                 </li>
                 </sec:authorize>
                 <li class="pull-right">

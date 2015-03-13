@@ -47,11 +47,12 @@ public class Task implements DataEntity {
     public Task(){
 
     }
-    public Task(TaskForm taskForm) {
+    public Task(TaskForm taskForm, User creator) {
+        this.id=taskForm.getId();
         this.title=taskForm.getTitle();
         this.description=taskForm.getDescription();
         this.status=taskForm.getStatus();
-        this.creator=taskForm.getCreator();
+        this.creator=creator;
 
     }
 
