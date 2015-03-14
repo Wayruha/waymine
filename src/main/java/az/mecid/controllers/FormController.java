@@ -82,15 +82,13 @@ public class FormController {
 
        if(!adsDao.isProjectByTitle(saveForm.getTitle()) || saveForm.getEditing()!=null)
        {
-
-           List<User> list=adsDao.getUsersByLogin(saveForm.getManager());
-           if(list.size()==0) return "redirect:/form/createProject?error=manager";
-           User manager=list.get(0);
-          Project newProj=new Project(saveForm,manager);
-           adsDao.save(newProj);
-           History history=new History(manager,HistoryAction.create_project,newProj.getName());     //тут ЗМІНА! ВІдслідкувати
-           adsDao.save(history);
-
+           Project oldProject=adsDao.getProjectById(saveForm.getId());
+           User manager=adsDao.getUserByLogin(saveForm.getManager());
+           Project newProj=new Project(saveForm,manager);
+           History history=new History();
+           history.setActor(manager);
+           compareTwoObjects(oldProject,newProj,true,history);
+           adsDao.update(newProj);
            return "redirect:/projects";
        } else {
            //Значить виникли трабли   з назвою
@@ -233,6 +231,7 @@ public class FormController {
             history.setObject(oldProj.getName());
             if(oldProj.getDescription()!=newProj.getDescription()) history.setAction(HistoryAction.change_project_description);
             if(oldProj.getType()!=newProj.getType()) history.setAction(HistoryAction.change_project_type);
+            if(oldProj.getManager()!=newProj.getManager()) history.setAction(HistoryAction.change_project_manager);
             if(history.getAction()!=null) adsDao.save(history);
 
         }
