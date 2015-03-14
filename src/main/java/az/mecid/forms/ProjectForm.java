@@ -6,12 +6,21 @@ import az.mecid.models.Project;
 import javax.validation.constraints.Size;
 
 public class ProjectForm {
+    private int id;
     @Size(min=2, max=30, message = "Не має бути пустим")
     private String title;
     private String description;
     private String manager;
     private ProjectType type;
     private String editing;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getEditing() {
         return editing;
@@ -60,6 +69,7 @@ public class ProjectForm {
     }
 
     public ProjectForm(Project project) {
+        this.id=project.getId();
         this.title=project.getName();
         this.description=project.getDescription();
        // this.manager=project.getManager();

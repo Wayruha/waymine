@@ -32,9 +32,17 @@ public class Project implements DataEntity {
     @JoinColumn(name="manager_id")
     private User manager;
 
+
     @OneToMany(mappedBy = "project")
     private List<Task> tasks;
 
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
 
 
     public ProjectType getType() {
@@ -80,6 +88,7 @@ public class Project implements DataEntity {
     }
 
     public Project (ProjectForm form, User manager){
+        this.id=form.getId();
         this.name=form.getTitle();
         this.description=form.getDescription();
         this.type=form.getType();
