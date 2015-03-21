@@ -24,6 +24,9 @@ public class History implements DataEntity {
     @Column(name="object")
     private String object;
 
+    @Column(name="inTask")
+    private String inTask;
+
     public History(User actor, HistoryAction action, String object) {
         this.actor = actor;
         this.action = action;
@@ -33,6 +36,13 @@ public class History implements DataEntity {
     public History() {
     }
 
+    public String getInTask() {
+        return inTask;
+    }
+
+    public void setInTask(String inTask) {
+        this.inTask = inTask;
+    }
 
     public int getId() {
         return id;

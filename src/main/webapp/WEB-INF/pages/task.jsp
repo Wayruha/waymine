@@ -108,6 +108,12 @@
                         </form>
                         <p style="text-align: left;vertical-align: top"> <font size="2" color="#a9a9a9">Have been working for 122hours </font></p> <p style="text-align: right">Mark as done</p>
     </div>
+                    <div style="width: 100%; margin: 3em auto; padding: 1em; box-shadow:
+   -20px 20px 0 -17px #f5f5f5, 20px -20px 0 -17px #f5f5f5, 20px 20px 0 -20px #c27153, 0 0 0 2px #c27153; word-wrap:break-word;">
+                        <c:forEach items="${history}" var="historyPost">
+                            <p><b>${historyPost.actor.login}</b> <spring:message code="history.${historyPost.action}" />: <u> ${historyPost.object}</u></p>
+                        </c:forEach>
+                    </div>
 </div>
 <iframe src="/getUsersInTask/${task.id}"  style="border:0px; margin: 20px 0px 0px 0px; height: 600px;"/> <!-- USERS    -->
 </div>

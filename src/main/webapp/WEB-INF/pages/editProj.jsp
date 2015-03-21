@@ -117,7 +117,6 @@
 
                             <a class="btn btn-primary btn-large" onclick="document.forms['form'].submit();">Save</a>
                          <input type="hidden" name="id" value="${project.id}">
-                         <c:if test="${editing}">waddddddddddddddddddddddddddddddd</c:if>
                             <c:if test="${editing}"><input type="hidden" value="editing" path="editing"></c:if>
                         <!--</form>-->
                          </form:form>

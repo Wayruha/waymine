@@ -12,9 +12,6 @@
         <property name="basename" value="classpath:messages" />
         <property name="defaultEncoding" value="cp1251" />
     </bean>
-  <!--  <bean id="customUserDetailsService"
-          class="az.mecid.hiberdemo.CustomUserDetailsService">
-    </bean>-->
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -27,6 +24,7 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.connection.charSet">UTF-8</prop>
+
             </props>
         </property>
 

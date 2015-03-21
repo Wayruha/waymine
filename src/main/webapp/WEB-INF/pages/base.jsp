@@ -1,6 +1,7 @@
 <%@ page import="az.mecid.models.Project" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
@@ -66,28 +67,27 @@
                     <div class="well">
                         <font size="5"><a  href="/projects/${project.id}">${project.name}</a></font>
                         <br>
-                        <u>${project.description}</u>
+                        ${project.description}
                         <br>
                         <br>
-
-                            <div class="col-md-6">
+                        <div class="col-md-6">
                                 <p align="left"><font size="2">Здати до:</font></p>
                             </div>
                             <div class="col-md-6">
                                 <p align="right"><font size="2">${project.manager.login}</font></p>
                             </div>
-
-
-
-
                     </div>
                     </c:forEach>
+                    <div style="width: 100%; margin: 3em auto; padding: 1em; box-shadow:
+   -20px 20px 0 -17px #f5f5f5, 20px -20px 0 -17px #f5f5f5, 20px 20px 0 -20px #c27153, 0 0 0 2px #c27153; word-wrap:break-word;">
+                        <c:forEach items="${history}" var="historyPost">
+                            <p><b>${historyPost.actor.login}</b> <spring:message code="history.${historyPost.action}" />: <u> ${historyPost.object}</u></p>
+                        </c:forEach>
+                     </div>
 
                 </div>
+                <iframe src="/getUsers/0" style="border:0px; margin: 20px 0px 0px 0px" scrolling="no" id="usersFrame" onload="calculateUsersBlocksSize()"/> <!-- USERS   -->
 
-
-                  <iframe src="/getUsers/0" style="border:0px; margin: 20px 0px 0px 0px" scrolling="no" id="usersFrame" onload="calculateUsersBlocksSize()"/> <!-- USERS   -->
-                   </iframe>
                 </div>
             </div>
         </div>

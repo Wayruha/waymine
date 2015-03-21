@@ -1,6 +1,7 @@
 <%@ page import="az.mecid.models.Project" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -88,6 +89,12 @@
 
                         </div>
                     </c:forEach>
+                            <div style="width: 100%; margin: 3em auto; padding: 1em; box-shadow:
+   -20px 20px 0 -17px #f5f5f5, 20px -20px 0 -17px #f5f5f5, 20px 20px 0 -20px #c27153, 0 0 0 2px #c27153; word-wrap:break-word;">
+                                <c:forEach items="${history}" var="historyPost">
+                                    <p><b>${historyPost.actor.login}</b> <spring:message code="history.${historyPost.action}" />: <u> ${historyPost.object}</u></p>
+                                </c:forEach>
+                            </div>
                 </div>
                 <iframe src="/getUsers/${project.id}" id="usersFrame" style="border:0px; margin: 20px 0px 0px 0px"/> <!-- USERS    -->
             </div>

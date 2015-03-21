@@ -170,7 +170,8 @@
                             <input type="hidden" id="accessList" name="accessList">
                             <input type="hidden" id="login" name="creator" value="${login}">
                             <input type="hidden" id="id" name="id" value="${taskId}">
-                            <input type="hidden" id="editing" path="editing" value="editing" name="editing">
+                            <c:if test="${editing}"><input type="hidden" id="editing" path="editing" value="editing" name="editing"></c:if>
+
    <!--- -->               <a class="btn btn-primary btn-large" onclick="convertUserList();document.forms['form'].submit();">Save</a>
                             <c:if test="${editing}"><input type="hidden" value="editing" path="editing"></c:if>
                         </form:form>      <c:if test="${error=='valid'}">

@@ -10,11 +10,12 @@ public enum HistoryAction {
     change_project_type,
     delete_project,
     create_task,
+    delete_task,
     change_task,
     change_task_description,
     change_task_status,
     task_add_user,
     task_del_user,
-    delete_task,
+
 
 }

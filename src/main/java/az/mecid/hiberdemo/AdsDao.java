@@ -17,6 +17,30 @@ public class AdsDao extends HibernateDaoSupport {
         getHibernateTemplate().update(entity);
     }
 
+    public List<History> getHistory(List<Project> projectList){
+        List<String> list=new ArrayList<String>();
+        for (Project proj:projectList)
+            list.add(proj.getName());
+        return (List<History>) getHibernateTemplate().findByNamedParam("SELECT post FROM History as post WHERE post.action IN ('create_project','delete_project', 'change_project_description','change_project_manager','change_project_type')"+
+              " AND post.object IN (:list)","list",list); //Сюди не дивись, так зроблено просто шо б ерору не було. А так-то воно вибирає історію з певних проектів.
+    }
+    public List<History> getHistory(Project project){
+        List<String> list=new ArrayList<String>();
+        list.add(project.getName());
+        for(Task task:getTasksInProject(project.getId()))
+            list.add(task.getTitle());
+        return (List<History>) getHibernateTemplate().findByNamedParam("SELECT post FROM History as post WHERE post.action IN ('change_project_description','change_project_manager','change_project_type','create_task','delete_task','change_task')" +
+                " AND post.object IN (:list)","list",list); //Сюди не дивись, так зроблено просто шо б ерору не було. А так-то воно вибирає історію з певних проектів.
+    }
+
+    public List<History> getHistory(Task task){
+        List<String> list=new ArrayList<String>();
+            list.add(task.getTitle());
+
+        return (List<History>) getHibernateTemplate().find("SELECT post FROM History as post WHERE post.action IN ('add_user','delete_user','change_task_description','change_task_status')" +
+                " AND post.object=? or post.inTask=?)",task.getTitle(),task.getId().toString()); //Сюди не дивись, так зроблено просто шо б ерору не було. А так-то воно вибирає історію з певних проектів.
+    }
+
     public List<Project> getAllProjects() {
         return getHibernateTemplate().loadAll(Project.class);
     }
@@ -30,7 +54,6 @@ public class AdsDao extends HibernateDaoSupport {
         List<Task_User> t_uList=getTasksByUser(user.getId());
         List<Project> open_projectsList=new ArrayList<Project>();
         open_projectsList.addAll((List<Project>) getHibernateTemplate().find("SELECT project FROM Project as project WHERE project.type=?", ProjectType.Public));
-
         for(Task_User t_u: t_uList)
            if(!open_projectsList.contains(t_u.getTask().getProject())) open_projectsList.add(t_u.getTask().getProject());
 
@@ -55,11 +78,11 @@ public class AdsDao extends HibernateDaoSupport {
     }
 
     public User getUserByLogin(String login){
-        System.out.println(login+" логін АДС ДАО");
+
         return (User) getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login).get(0);
     }
     public List<User> getUsersByLogin(String login){
-        System.out.println(getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login).size());
+
         return (List<User>) getHibernateTemplate().find("SELECT user FROM User as user WHERE user.login=?",login);
     }
 
