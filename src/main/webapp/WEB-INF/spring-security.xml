@@ -12,6 +12,7 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd">
         <intercept-url pattern="/delete/*" access="ROLE_ADMIN" />
         <intercept-url pattern="/projects*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
         <intercept-url pattern="/projects/*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
+        <intercept-url pattern="/projects/*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
         <form-login login-page="/index.jsp" default-target-url="/projects"
                     authentication-failure-url="/index.jsp?error=true" />
         <logout logout-url="/logout" logout-success-url="/index.jsp" />

@@ -25,6 +25,8 @@ public class projectURIController {
     public ModelAndView base(Principal principal){
         ModelAndView mav=new ModelAndView("base");
         List<Project> projectsList=adsDao.getProjectsForUser(principal.getName());
+        List<History> history=adsDao.getHistory(projectsList);
+        mav.addObject("history",history);
         mav.addObject("projectsList",projectsList);
 
         return mav;
@@ -35,8 +37,10 @@ public class projectURIController {
      ModelAndView mav=new ModelAndView("project");
            Project project=adsDao.getProjectById(projectId);
      List<Task> tasksList=adsDao.getTasksInProject(projectId);
+        List<History> history=adsDao.getHistory(project);
         taskListSort(tasksList);
         mav.addObject("project",project);
+        mav.addObject("history",history);
         mav.addObject("tasksList",tasksList);
         return mav;
     }
@@ -46,8 +50,10 @@ public class projectURIController {
         ModelAndView mav=new ModelAndView();
         mav.setViewName("task");
         Task task=adsDao.getTaskById(taskId);
+        List<History> history=adsDao.getHistory(task);
        List<Comment> commentList=adsDao.getCommentsInTask(taskId);
         mav.addObject("task",task);
+        mav.addObject("history",history);
         mav.addObject("comments", commentList);
    return mav;
     }

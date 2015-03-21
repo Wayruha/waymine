@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -30,10 +29,9 @@ import java.util.Set;
 @Controller
 @RequestMapping(value="/form")
 public class FormController {
-    @Autowired
-    private SaveProjectValidator savePrjValidator;
-    @Autowired
-    private SaveTaskValidator saveTaskValidator;
+
+    private SaveProjectValidator savePrjValidator=new SaveProjectValidator();
+    private SaveTaskValidator saveTaskValidator=new SaveTaskValidator();
     @Autowired
     private AdsDao adsDao;
 
@@ -69,10 +67,27 @@ public class FormController {
     }
 
     @RequestMapping(value="/saveProject")
-    public String processEditProj(@Valid ProjectForm saveForm, BindingResult result){
-        //ModelAndView mav=new ModelAndView("base");
-        savePrjValidator.validate(saveForm,result);
-        if (result.hasErrors()) {
+    public String processEditProj(ProjectForm saveForm, Principal principal){
+        boolean editing=saveForm.getEditing()!=null;
+        String managerStr = saveForm.getManager();
+
+
+        User manager;                                 //це краще не трогати
+        if(!managerStr.isEmpty())
+            if(adsDao.getUsersByLogin(managerStr).size()==0)
+                if (saveForm.getEditing()!=null)
+                    return "redirect:/form/editProject/?error=manager";
+                else
+                    return "redirect:/form/createProject/?error=manager";
+            else
+                manager=adsDao.getUserByLogin(saveForm.getManager());
+        else
+        {
+            manager=adsDao.getUserByLogin(principal.getName());
+        }
+                                                                    //перевірка на коректність введеного менеджера
+
+        if (savePrjValidator.hasErrors(saveForm)) {
            System.out.println("Якісь помилки при заповненні сталися. перенаправляє назад на ЕдітПродж");
             if (saveForm.getEditing()!=null)
                 return "redirect:/form/editProject/?error=valid";
@@ -80,15 +95,26 @@ public class FormController {
                 return "redirect:/form/createProject/?error=valid";
         }
 
-       if(!adsDao.isProjectByTitle(saveForm.getTitle()) || saveForm.getEditing()!=null)
+       if(!adsDao.isProjectByTitle(saveForm.getTitle()) || editing)
        {
            Project oldProject=adsDao.getProjectById(saveForm.getId());
-           User manager=adsDao.getUserByLogin(saveForm.getManager());
+
+
+
            Project newProj=new Project(saveForm,manager);
            History history=new History();
            history.setActor(manager);
-           compareTwoObjects(oldProject,newProj,true,history);
-           adsDao.update(newProj);
+           if(editing) {
+               compareTwoObjects(oldProject,newProj,true,history);
+               adsDao.update(newProj);
+           }
+           else
+           {
+               history.setAction(HistoryAction.create_project);
+               history.setObject(newProj.getName());
+               adsDao.save(newProj);
+           }
+
            return "redirect:/projects";
        } else {
            //Значить виникли трабли   з назвою
@@ -119,7 +145,6 @@ public class FormController {
 
     @RequestMapping(value = "/createTask/{projectId}")
     public ModelAndView createTask(@PathVariable("projectId") int projectId,@RequestParam(required = false) String error,Principal principal){
-
         ModelAndView mav=new ModelAndView("editTask");
         List<User> userList=adsDao.getUsers(projectId);
         mav. addObject("login",principal.getName());
@@ -134,17 +159,20 @@ public class FormController {
     @RequestMapping(value = "/saveTask")
     public String processEditTask(@RequestParam("project") int projectId,TaskForm saveForm, BindingResult result){
      //   ModelAndView mav=new ModelAndView("base");
-        saveTaskValidator.validate(saveForm,result);
+
         System.out.println(saveForm.getTitle()+" тітл Сейв таск");
         System.out.println(saveForm.getId()+" ID Сейв таск");
-        if (result.hasErrors()) {
+        System.out.println(saveForm.getEditing()+" --Едітінг");
+        boolean editing=saveForm.getEditing()!=null?true:false;
+        if (saveTaskValidator.hasErrors(saveForm)) {
+            System.out.println("Помилка: "+result.getAllErrors().get(0).getDefaultMessage());
             System.out.println("Якісь помилки при заповненні сталися. перенаправляє назад на ЕдітПродж");
                 if (saveForm.getEditing()!=null)
                     return "redirect:/form/editTask/"+saveForm.getId()+"?error=valid";
                 else
                     return "redirect:/form/createTask/"+projectId+"?error=valid";
         }
-        if(!adsDao.isTaskByTitle(saveForm.getTitle()) || saveForm.getEditing()!=null)
+        if(!adsDao.isTaskByTitle(saveForm.getTitle()) || editing) //Якщо редагується або нік не існує
         {
             String[] arrUsers=saveForm.getUserList().split("--");
             String[] arrAccesses=saveForm.getAccessList().split("--");
@@ -153,44 +181,56 @@ public class FormController {
             newTask.setProject(adsDao.getProjectById(projectId));
             newTask.setDateOfCreating(new Date(new java.util.Date().getTime()));
             Set<Task_User> t_uList= new HashSet<Task_User>();                   /////////////
-            for (int i=0;i<arrUsers.length;i++){
-                Task_User t_u=new Task_User();
-                t_u.setUser(adsDao.getUserByLogin(arrUsers[i]));
-                t_u.setTask(newTask);
-                System.out.println(arrAccesses[i]+"-");
-                t_u.setAccess(Access.valueOf(arrAccesses[i].trim()));
-                t_uList.add(t_u);
+
+            for (int i=0;i<arrUsers.length;i++){                                 //Генеруємо масив <Task_User>
+                if(arrUsers[i].trim().length()>1){
+                    Task_User t_u=new Task_User();
+                    t_u.setUser(adsDao.getUserByLogin(arrUsers[i]));
+                    t_u.setTask(newTask);
+                    System.out.println(arrAccesses[i]+"-");
+                    t_u.setAccess(Access.valueOf(arrAccesses[i].trim()));
+                    t_uList.add(t_u);
+                }
             }
             newTask.setTaskAndUserList(t_uList);
             Task oldTask=adsDao.getTaskById(saveForm.getId());
             //Порівнюємо старий і новий таски
             History history=new History();
             history.setActor(creator);
+            if(editing) {
+                compareTwoObjects(oldTask,newTask, false,history);
+                adsDao.update(newTask);
+            }
+            else
+            {
+                history.setAction(HistoryAction.create_task);
+                history.setObject(newTask.getTitle());
+                adsDao.save(newTask);
+            }
 
-            compareTwoObjects(oldTask,newTask, false,history);
-
-            adsDao.update(newTask);
-            if(arrUsers.length>0)
             for(int i=0;i<arrUsers.length;i++){
-                User user= adsDao.getUserByLogin(arrUsers[i].trim());
-                Access access=Access.valueOf(arrAccesses[i].trim());
-                 Task_User t_u=new Task_User(newTask,user,access);
-                 adsDao.save(t_u);
+                if(arrUsers[i].trim().length()>1)
+                {
+                    User user= adsDao.getUserByLogin(arrUsers[i].trim());
+                    Access access=Access.valueOf(arrAccesses[i].trim());
+                    Task_User t_u=new Task_User(newTask,user,access);
+                    adsDao.save(t_u);
+                }
             }
             //ІСТОРІЯ!!
-          //  History history=new History(creator,HistoryAction.create_task,newTask.getTitle());    //TODO тут ЗМІНА! ВІдслідкувати
-            adsDao.save(history);
+          //  History history=new History(creator,HistoryAction.create_task,newTask.getTitle());    //TODO тут ЗМІНА! ВІдслідкувати по аналогії з СейвПроект
+
+
             return "redirect:/projects/"+projectId;
         } else {
             //Зробити ЕРОРИ
-            System.out.println("Виникли трабли. Повернули назад на сторінку");
-
-            return "redirect:/form/editTask/"+saveForm.getId()+"?error=title";
+            System.out.println("Тітл уже існує!");
+            return "redirect:/form/createTask/"+projectId+"?error=title";
         }
     }
 
     public void compareTwoObjects(DataEntity old,DataEntity _new, boolean isProj,History history){
-
+        //Історія зберігається тут
         /*if(oldTask.getDescription()!=newTask.getDescription()) history.setAction(HistoryAction.change_task_description);
         if(oldTask.getStatus()!=newTask.getStatus()) history.setAction(HistoryAction.change_task_status);
         */
@@ -236,6 +276,10 @@ public class FormController {
 
         }
 
+
+    }
+
+    public void validateManager(){
 
     }
 
