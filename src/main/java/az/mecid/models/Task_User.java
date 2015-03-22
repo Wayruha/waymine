@@ -17,6 +17,10 @@ public class Task_User implements DataEntity {
     private Task task;
 
     @ManyToOne
+    @JoinColumn(name="project_id")
+    private Project project;
+
+    @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
 
@@ -33,6 +37,14 @@ public class Task_User implements DataEntity {
         this.user=user;
         this.access=access;
 
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Access getAccess() {

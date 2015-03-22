@@ -49,8 +49,7 @@ public class AdsDao extends HibernateDaoSupport {
         return getHibernateTemplate().get(Project.class, id);
     }
 
-    public List<Project> getProjectsForUser(String login) {
-        User user =  getUserByLogin(login);
+    public List<Project> getProjectsForUser(User user) {
         List<Task_User> t_uList=getTasksByUser(user.getId());
         List<Project> open_projectsList=new ArrayList<Project>();
         open_projectsList.addAll((List<Project>) getHibernateTemplate().find("SELECT project FROM Project as project WHERE project.type=?", ProjectType.Public));
@@ -93,12 +92,14 @@ public class AdsDao extends HibernateDaoSupport {
       else
       {
           List<Task> taskList=getTasksInProject(projectId);
+
           List<User> userList=new ArrayList<User>();
           List<User>taskUserList=new ArrayList<User>();
           List<String> loginList=new ArrayList<String>();
           for(Task task: taskList)
           {
-              taskUserList=((List<User>) getHibernateTemplate().find("select user from Task_User as t_u  INNER JOIN t_u.user as user WHERE t_u.task=?",task ));
+              System.out.println( getHibernateTemplate().find("select user from Task_User as t_u  INNER JOIN t_u.user as user WHERE t_u.task=?",task).size()+"-к-сть користувачів у таску "+task.getTitle());
+              taskUserList=((List<User>) getHibernateTemplate().find("select user from Task_User as t_u  INNER JOIN t_u.user as user WHERE t_u.task=?",task));
               for(User user:taskUserList)
               {
                   if(!loginList.contains(user.getLogin()))
@@ -133,6 +134,13 @@ public class AdsDao extends HibernateDaoSupport {
 
     public List<Task_User> getTasksByUser(int id){
         return (List<Task_User>) getHibernateTemplate().find("SELECT t_u FROM Task_User as t_u INNER JOIN t_u.user as user WHERE user.id=?",id);
+    }
+
+    public Task_User getAccessInTask(User user, Task task){
+        List<Task_User>list=(List<Task_User>)getHibernateTemplate().find("SELECT t_u FROM Task_User as t_u WHERE t_u.user=? AND t_u.task=?",user,task);
+        if(list.size()>0)
+            return list.get(0);
+        else return null;
     }
 
     public Task getTaskById(int id){

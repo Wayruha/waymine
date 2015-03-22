@@ -1,5 +1,6 @@
 package az.mecid.controllers;
 
+import az.mecid.enums.Access;
 import az.mecid.enums.TaskStatus;
 import az.mecid.hiberdemo.AdsDao;
 import az.mecid.models.*;
@@ -24,7 +25,8 @@ public class projectURIController {
     @RequestMapping(value = "",method = RequestMethod.GET)        //    добавити в параметри методу. Доступ до імені користувача
     public ModelAndView base(Principal principal){
         ModelAndView mav=new ModelAndView("base");
-        List<Project> projectsList=adsDao.getProjectsForUser(principal.getName());
+        User user=adsDao.getUserByLogin(principal.getName());
+        List<Project> projectsList=adsDao.getProjectsForUser(user);
         List<History> history=adsDao.getHistory(projectsList);
         mav.addObject("history",history);
         mav.addObject("projectsList",projectsList);
@@ -33,10 +35,21 @@ public class projectURIController {
     }
 
     @RequestMapping(value = "/{projectId}")
-    public ModelAndView projectResolver(@PathVariable("projectId") int projectId){
+    public ModelAndView projectResolver(@PathVariable("projectId") int projectId, Principal principal){
      ModelAndView mav=new ModelAndView("project");
            Project project=adsDao.getProjectById(projectId);
+
      List<Task> tasksList=adsDao.getTasksInProject(projectId);
+        User user=adsDao.getUserByLogin(principal.getName());
+        List<Project> accessGrantedProjectsList=adsDao.getProjectsForUser(user);
+
+        boolean  contains=false;
+        for (Project proj:accessGrantedProjectsList)
+            if(proj.getId()==projectId) contains=true;
+        if(!contains)        //Перевірка на доступ
+            return new ModelAndView("error403");
+
+
         List<History> history=adsDao.getHistory(project);
         taskListSort(tasksList);
         mav.addObject("project",project);
@@ -46,12 +59,27 @@ public class projectURIController {
     }
 
     @RequestMapping(value = "/task/{task}")
-    public ModelAndView taskResolver(@PathVariable("task") int taskId){
+    public ModelAndView taskResolver(@PathVariable("task") int taskId,Principal principal){
         ModelAndView mav=new ModelAndView();
         mav.setViewName("task");
+        User user=adsDao.getUserByLogin(principal.getName());
         Task task=adsDao.getTaskById(taskId);
+        Project project=task.getProject();
+
+        boolean  contains=false;
+        for (Project proj:adsDao.getProjectsForUser(user))
+            if(proj.getId()==project.getId()) contains=true;
+        if(!contains)        //Перевірка на доступ
+            return new ModelAndView("error403");
+
+
         List<History> history=adsDao.getHistory(task);
        List<Comment> commentList=adsDao.getCommentsInTask(taskId);
+        Task_User t_u=adsDao.getAccessInTask(user,task);
+        Access role;
+        if(t_u==null) role=null;
+        else role=t_u.getAccess();
+        mav.addObject("role",role);
         mav.addObject("task",task);
         mav.addObject("history",history);
         mav.addObject("comments", commentList);
@@ -81,5 +109,7 @@ public class projectURIController {
 
     }                                    //Або ж вернути новий таскЛіст, якшо будуть трабли
 
+    public void checkForAccess(){
 
+    }
 }
