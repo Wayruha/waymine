@@ -2,7 +2,6 @@ package az.mecid.controllers;
 
 import az.mecid.hiberdemo.AdsDao;
 import az.mecid.models.Project;
-import az.mecid.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,17 +46,7 @@ public class HelloController {
 
     @RequestMapping(value = "create.form")
     public String create(@RequestParam("login") String login,ModelMap model) {
-        User user1 = new User();
-        user1.setId(10);
-        user1.setFirstName("Паша");
-
-        user1.setSecondName("Павлов");
-        user1.setLogin("unknown");
-        user1.setPassword("password");
-        user1.seteMail("e-mail2");
-
-        adsDao.save(user1);
-        return "hello";
+       return "redirect:/error403";
     }
 
     @RequestMapping(value = "update.form",method = RequestMethod.GET)
