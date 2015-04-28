@@ -5,6 +5,7 @@ import az.mecid.forms.ProjectForm;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 
@@ -27,14 +28,39 @@ public class Project implements DataEntity {
     @Enumerated(EnumType.STRING)
     private ProjectType type;
 
+
+    @Column(name="date_of_creating")
+    private Date createdDate;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @Cascade(org.hibernate.annotations.CascadeType.REPLICATE)
     @JoinColumn(name="manager_id")
     private User manager;
 
-
     @OneToMany(mappedBy = "project")
     private List<Task> tasks;
+
+    public Project(){
+
+    }
+
+    public Project (ProjectForm form, User manager){
+        this.id=form.getId();
+        this.name=form.getTitle();
+        this.description=form.getDescription();
+        this.type=form.getType();
+        this.manager=manager;
+    }
+
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
@@ -83,17 +109,6 @@ public class Project implements DataEntity {
         this.id = id;
     }
 
-    public Project(){
-
-    }
-
-    public Project (ProjectForm form, User manager){
-        this.id=form.getId();
-        this.name=form.getTitle();
-        this.description=form.getDescription();
-        this.type=form.getType();
-        this.manager=manager;
-    }
 
 
 }

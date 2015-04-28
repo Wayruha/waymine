@@ -35,7 +35,7 @@
             </button>
 
             <a class="navbar-brand" href="/projects/${project.id}" target="_top">${project.name}</a>
-            <c:if test="${empty project.name}"><a class="navbar-brand" href="/projects" target="_top">WayMine</a></c:if>
+            <c:if test="${empty project.name}"><a class="navbar-brand" href="/" target="_top">WayMine</a></c:if>
 
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -49,12 +49,12 @@
                         <br>
                          <div class="form-group">
                            <div class="col-sm-2">
-                               <a href="/logout" target="_top" type="submit" class="btn btn-info btn-sm">Logout</a>
+                               <a href="/logout" target="_top" class="btn btn-info btn-sm">Logout</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a class="btn btn-info btn-sm col-sm-1 pull-right" draggable="true">Admin</a>
+
             </div>
         </div>
     </div>

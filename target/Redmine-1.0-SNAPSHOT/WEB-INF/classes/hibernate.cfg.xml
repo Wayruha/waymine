@@ -13,6 +13,7 @@
         <mapping class="az.mecid.models.Task_User" />
         <mapping class="az.mecid.models.Comment" />
         <mapping class="az.mecid.models.History" />
+        <mapping class="az.mecid.models.RegistrationCode" />
 
 
 

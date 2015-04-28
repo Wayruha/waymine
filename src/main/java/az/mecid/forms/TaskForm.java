@@ -11,7 +11,8 @@ public class TaskForm {
     private String userList;
     private String accessList;
     private String creator;
-    private String editing;
+    private boolean editing=false;
+    private Integer plannedTime=0;
 
     public TaskForm() {
     }
@@ -30,11 +31,11 @@ public class TaskForm {
     }
 
 
-    public String getEditing() {
+    public boolean getEditing() {
         return editing;
     }
 
-    public void setEditing(String editing) {
+    public void setEditing(boolean editing) {
         this.editing = editing;
     }
 

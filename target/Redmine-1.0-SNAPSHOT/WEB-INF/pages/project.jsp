@@ -41,7 +41,11 @@
                 <li>
                     <a href="/projects" target="_top">Projects</a>
                 </li>
-
+                <sec:authorize url="/addUser/">
+                    <li class="pull-right">
+                        <a href="/inviteUser" target="_top">New user</a>
+                    </li>
+                </sec:authorize>
                 <sec:authorize url="/form">
                     <li class="pull-right" id="taskButt">
                         <a href="/form/createTask/${project.id}" target="_top">New task</a>
@@ -72,8 +76,15 @@
                         <div class="well" style="background-color: darkgrey">
                     </c:otherwise>
                     </c:choose>
-                            <font size="5"><a href="task/${task.id}">${task.title}</a></font>
 
+                        <table width="100%">
+                            <tr>
+                                <td width="97%"> <font size="5"><a href="task/${task.id}">${task.title}</a></font></td>
+                                <sec:authorize url="/form/"><td> <a href="/form/editTask/${task.id}" ><img src="data/plus.png"/></a>  </td></sec:authorize>
+
+                            </tr>
+
+                        </table>
                             <div style="position:absolute;right:5%;">${task.status}</div>
                             <br>
 

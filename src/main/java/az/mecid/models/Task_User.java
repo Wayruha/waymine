@@ -3,6 +3,7 @@ package az.mecid.models;
 import az.mecid.enums.Access;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name="task_user")
@@ -28,6 +29,12 @@ public class Task_User implements DataEntity {
     @Enumerated(EnumType.STRING)
     private Access access;
 
+    @Column(name="spent_time",nullable = false)
+    private Integer spentTime=0;
+
+    @Column(name="last_fixed_activity")
+    private Date lastFixedActivity;
+
     public Task_User(){
 
     }
@@ -38,6 +45,24 @@ public class Task_User implements DataEntity {
         this.access=access;
 
     }
+
+    public Integer getSpentTime() {
+        return spentTime;
+    }
+
+    public void setSpentTime(Integer spentTime) {
+        this.spentTime = spentTime;
+
+    }
+
+    public Date getLastFixedActivity() {
+        return lastFixedActivity;
+    }
+
+    public void setLastFixedActivity(Date lastFixedActivity) {
+        this.lastFixedActivity = lastFixedActivity;
+    }
+
 
     public Project getProject() {
         return project;
@@ -78,6 +103,7 @@ public class Task_User implements DataEntity {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
 
 
