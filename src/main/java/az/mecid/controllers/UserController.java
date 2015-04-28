@@ -17,14 +17,14 @@ public class UserController {
     @Autowired
     private AdsDao adsDao;
 
-    @RequestMapping(value="userinfo/{user}")
+    @RequestMapping(value="userinfo/{user}")                                         //TODO налаштування приватності
     public ModelAndView getUserProfile(@PathVariable("user") int id){
         ModelAndView mav=new ModelAndView("userProfile");
         User user =adsDao.getUserById(id);
+        if(user==null) return  new ModelAndView("error403");
         List<Task_User> list=adsDao.getTasksByUser(id);
         mav.addObject("user",user);
         mav.addObject("task_userList",list);
-
         return mav;
     }
     @RequestMapping(value = "getUsers/{from}")
@@ -37,8 +37,8 @@ public class UserController {
     @RequestMapping(value = "getUsersInTask/{from}")
     public ModelAndView getUsersInTask (@PathVariable("from") int taskId){
         ModelAndView mav=new ModelAndView("users");
-        List<User> usersList=adsDao.getUsersInTask(taskId);
-        mav.addObject("usersList",usersList);
+        List<Task_User> t_uList=adsDao.getUsersRolesInTask(taskId);
+        mav.addObject("t_uList",t_uList);
 
         return mav;
     }

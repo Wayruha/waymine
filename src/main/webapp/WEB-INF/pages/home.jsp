@@ -15,7 +15,27 @@
 </head>
 
 <body class="">
-<iframe src="top" width="100%" height="170px" scrolling="no" border="0px"></iframe>
+<iframe src="/top" name="usersFrame" width="100%" height="90px" scrolling="no"
+        border="0px"></iframe>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12 ">
+            <ul class="lead nav nav-pills">
+                <li class="">
+                    <a href="/home" target="_top">Home</a>
+                </li>
+                <li>
+                    <a href="/projects" target="_top">Projects</a>
+                </li>
+                <li class="pull-right">
+                    <a href="/userinfo/1" target="_top">Users</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 <div class="container">
 
     <div class="row">
@@ -26,13 +46,14 @@
 
                     <div class="well">
 
-                        Інформація про користувача
+                       Головна сторінка
+                        Профіль авторизованого користувача
 
 
                     </div>
 
                 </div>
-                <iframe src="/getUsers/all" style="border:0px; margin: 20px 0px 0px 0px" />
+                <iframe src="/getUsers/0" style="height:600px;border:0px; margin: 20px 0px 0px 0px" />
 
 
             </div>

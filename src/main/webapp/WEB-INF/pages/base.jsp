@@ -39,7 +39,12 @@
                     <a href="/projects" target="_top">Projects</a>
                 </li>
 
-                <sec:authorize url="/form">
+                <sec:authorize url="/addUser/">
+                <li class="pull-right">
+                    <a href="/inviteUser" target="_top">New user</a>
+                </li>
+                </sec:authorize>
+                <sec:authorize url="/form/">
                 <li class="pull-right">
                     <a href="/form/createProject" target="_top">New project</a>
                 </li>
@@ -59,15 +64,25 @@
             <div class="" draggable="true">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <h2>A lot of text</h2>
                     </div>
                 </div>
                 <div class="col-md-8 pull-left" id="tasksBlock">
                    <br>
                     <c:forEach items="${projectsList}" var="project">
                     <div class="well">
-                        <font size="5"><a  href="/projects/${project.id}">${project.name}</a></font>
+                        <table width="100%">
+                        <tr>
+                            <td width="90%"> <font size="5"><a  href="/projects/${project.id}">${project.name}</a></font></td>
+                            <sec:authorize url="/form/">
+                                <td> <a href="/projects/info/${project.id}" ><img src="<c:url value='resources/data/plus.png'/>"/></a>  </td>
+                                <td> <a href="/form/editProject/${project.id}" ><img src="/resources/data/plus.png"/></a>  </td>
+                            </sec:authorize>
+
+                        </tr>
+
+                    </table>
                         <br>
+                        <img src='<c:url value="/resources/data/plus.png"/>'/>
                         ${project.description}
                         <br>
                         <br>

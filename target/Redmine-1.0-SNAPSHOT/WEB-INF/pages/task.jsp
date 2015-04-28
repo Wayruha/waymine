@@ -83,7 +83,7 @@
 
                         Статус: ${task.status} <br>
 
-                        <p style="margin: 10px auto; padding: 10px 7px; box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);">${task.description}</p>
+                        <p style="margin: 10px auto; padding: 10px 7px; box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);">${task.description} <br/><u>Час виконання:</u> ${task.plannedTime} годин</p>
 
                 <c:if test="${fn:length(comments)>0}">
                         <div style="width: 100%; margin: 3em auto; padding: 1em; box-shadow:
@@ -109,7 +109,7 @@
                 </c:if>
                         <br>
                 <c:if test="${role!=null}">
-                        <form action="/projects/addComment?taskId=4&login=wayruha" method="get">
+                        <form action="/projects/addComment?taskId=${task.id}&login=${t_u.user.login}" method="get">
                             <table style="width: 100%;">
                                 <tr>
                                     <td padding="20" style="margin-right:30px"><textarea class="form-control"
@@ -127,8 +127,13 @@
                             </table>
                         </form>
                 </c:if>
-                        <p style="text-align: left;vertical-align: top"><font size="2" color="#a9a9a9">Have been working
-                            for 122hours </font></p>
+                        <c:if test="${t_u!=null}">  <p style="text-align: left;vertical-align: top"><font size="2" color="#a9a9a9">Have been working
+                            for ${t_u.spentTime} hours. Last fixed time at ${t_u.lastFixedActivity} </font></p>
+
+                       <form action="/saveWorkedTime/${t_u.task.id}/${t_u.spentTime}" method="post">
+                            <input class="form-contol" type="number" min="0" max="24" name="workedTime">
+                            <input type="submit" class="btn btn-success btn-sm" value="Save worked time">
+                        </form>                   </c:if>
 
                         <c:if test="${role=='Owner'}"><p style="text-align: right"><a class="btn btn-success btn-sm">Mark as done</a></p></c:if>
                     </div>

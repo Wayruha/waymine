@@ -12,7 +12,28 @@ public class ProjectForm {
     private String description;
     private String manager;
     private ProjectType type;
-    private String editing;
+    private boolean editing;
+    private String userList;
+
+    public ProjectForm() {
+
+    }
+
+    public ProjectForm(Project project) {
+        this.id=project.getId();
+        this.title=project.getName();
+        this.description=project.getDescription();
+        this.manager=project.getManager()==null?"":project.getManager().getLogin();
+        this.type=project.getType();
+    }
+
+    public String getUserList() {
+        return userList;
+    }
+
+    public void setUserList(String userList) {
+        this.userList = userList;
+    }
 
     public int getId() {
         return id;
@@ -22,11 +43,11 @@ public class ProjectForm {
         this.id = id;
     }
 
-    public String getEditing() {
+    public boolean getEditing() {
         return editing;
     }
 
-    public void setEditing(String editing) {
+    public void setEditing(boolean editing) {
         this.editing = editing;
     }
 
@@ -64,15 +85,5 @@ public class ProjectForm {
     }
 
 
-    public ProjectForm() {
 
-    }
-
-    public ProjectForm(Project project) {
-        this.id=project.getId();
-        this.title=project.getName();
-        this.description=project.getDescription();
-       // this.manager=project.getManager();
-        this.type=project.getType();
-    }
 }

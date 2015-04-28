@@ -29,6 +29,10 @@ public class Task implements DataEntity {
     @Column(name="date_of_creating")
     private Date dateOfCreating;
 
+
+    @Column(name="planned_time")
+    private Integer plannedTime=0;
+
     @Column(name="status")
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
@@ -54,6 +58,16 @@ public class Task implements DataEntity {
         this.status=taskForm.getStatus();
         this.creator=creator;
 
+    }
+
+
+    public Integer getPlannedTime() {
+        if(this.plannedTime==null) return 0;
+        return plannedTime;
+    }
+
+    public void setPlannedTime(Integer plannedTime) {
+        this.plannedTime = plannedTime;
     }
 
     public String getDescription() {

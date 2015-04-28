@@ -22,7 +22,7 @@
             var list=document.getElementById("listOfUsers");
             var li=document.getElementById(userId);
             var pre=document.createElement('pre');
-            var node=document.createTextNode(li.firstChild.text+'   ');    //   Забрать
+            var node=document.createTextNode(li.firstChild.text+'    ');    //   Забрать
             var select=document.createElement('select');
             var imgMinus=document.createElement("img");
             imgMinus.align="right";
@@ -110,8 +110,13 @@
     <div class="row">
         <div class="col-md-12" draggable="true" style="">
             <table width="85%"> <tr>
-            <td><font size="+3">Creating task</font></td>
-                <td style="text-align: right"><font size="+3">Add users</font></td>
+                <c:if test="${task.editing==false}"><td><font size="+3">Creating task</font></td>
+                    <td style="text-align: right"><font size="+3">Add users</font></td>
+                </c:if>
+                <c:if test="${task.editing==true}"><td><font size="+3">Editing task</font></td>
+                    <td style="text-align: right"><font size="+3">Users in task</font></td>
+                </c:if>
+
             </tr></table>
             <div class="row" draggable="true">
                 <div class="col-md-8 pull-left">
@@ -140,10 +145,9 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <form:textarea path="description" class="form-control" id="description" rows="8"/>
-                            </div>
+                                </div>
                             </div>
                             <hr>
-
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label for="description" class="control-label">Add users</label>
@@ -155,39 +159,42 @@
                                              <option value="<%=Access.Observer%>" title="Observer" <c:if test="${t_u.access=='Observer'}">selected="selected"</c:if>>Observer</option>
                                              </select>   <img src="data/minus.png" align="right" name="${t_u.user.id}" />
                                          </pre>
-
                                      </c:forEach>
                                 </div>
                             </div>
                             <hr>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label for="title" class="control-label">Planned time</label>
+                                </div>
+                                <div class="col-sm-6">
 
-                           <%-- <c:if test="${error=='true'}">
-                                <font color="red">
-                                    The error was happen. Please, try again
-                                </font>
-                            </c:if>--%>
+                                    <input type="number"  name="plannedTime" value='0'>
+                                </div>
+                            </div>
                             <input type="hidden" id="userList" name="userList">
                             <input type="hidden" id="accessList" name="accessList">
                             <input type="hidden" id="login" name="creator" value="${login}">
                             <input type="hidden" id="id" name="id" value="${taskId}">
-                            <c:if test="${editing}"><input type="hidden" id="editing" path="editing" value="editing" name="editing"></c:if>
+                            <c:if test="${task.editing}"><input type="hidden" id="editing" path="editing" value="${true}" name="editing"></c:if>
 
    <!--- -->               <a class="btn btn-primary btn-large" onclick="convertUserList();document.forms['form'].submit();">Save</a>
-                            <c:if test="${editing}"><input type="hidden" value="editing" path="editing"></c:if>
+
+
                         </form:form>      <c:if test="${error=='valid'}">
                         <font color="red">
                             Не правильно заповнені поля
                         </font>
-                    </c:if>
+                            </c:if>
                     </div>
                 </div>
                 <div class="col-md-3 pull-left" id="block">
                    <br/>
                     <ul class="lead list-group" id="ulUsers">
 
-                            <c:forEach items="${t_uList}" var="t_u">
-                                    <li class="list-group-item" id="${t_u.user.id}"><a href="/userinfo/${t_u.user.id}"  target="_top" >${t_u.user.login}</a>
-                                    <span class="badge"  id="badge/${t_u.user.id}"><img src="data/plus.png" onclick="addToManagedUsers(${t_u.user.id})"/></span>
+                            <c:forEach items="${userList}" var="user">
+                                    <li class="list-group-item" id="${user.id}"><a href="/userinfo/${user.id}"  target="_top" >${user.login}</a>
+                                    <span class="badge"  id="badge/${user.id}"><img src="data/plus.png" onclick="addToManagedUsers(${user.id})"/></span>
                                 </li>
                             </c:forEach>
                     </ul>

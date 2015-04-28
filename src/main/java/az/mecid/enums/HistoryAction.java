@@ -1,10 +1,13 @@
 package az.mecid.enums;
 
 public enum HistoryAction {
-     add_user,
+    invite_user,
+    add_user,
+    add_user_to_project,
+    delete_user_from_project,
     delete_user,
-     create_project,
-     change_project,
+    create_project,
+    change_project,
     change_project_description,
     change_project_manager,
     change_project_type,

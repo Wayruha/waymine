@@ -123,8 +123,20 @@ public class User implements DataEntity {
         this.eMail = eMail;
     }
 
+
       public User(){
 
       }
+    @Override
+    public boolean equals(Object object) {
 
+        if (object != null && object instanceof User) {
+            User user = (User) object;
+            if(this.id==user.getId() && this.login==user.getLogin() && this.role==user.getRole())
+                return true;
+            else return false;
+        }
+
+        return false;
+    }
 }
