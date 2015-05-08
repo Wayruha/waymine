@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Home page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -42,15 +42,62 @@
         <div class="col-md-12" draggable="true" style="">
             <div class="" draggable="true">
                 <div class="col-md-8 pull-left">
-                    <h2>A lot of text</h2>  <br>
+                    <h2>${pageContext.request.userPrincipal.name}</h2>  <br>
 
                     <div class="well">
 
                        Головна сторінка
                         Профіль авторизованого користувача
+                        <div class="row">
+                            <div class="col-md-12" draggable="true" style="">
+                                <div class="" draggable="true">
+                                    <div class="row">
+
+                                    </div>
+                                    <div class="col-md-8 pull-left well" id="tasksBlock">
+                                        <table width="100%">
+                                            <tr>
+                                                <td ><h4><b>${user.secondName} ${user.firstName}</b></h4></td>
+                                                <td align="right"><h4><b>${user.login}</b></h4></td>
+                                            </tr>
+                                        </table>
+
+                                        Ел.адреса:${user.eMail}         <br/>
+                                        Таски в яких задіяний:<br/>
+                                        <ul>
+                                            <br>
+                                            <table width="100%">
+                                                <tr><td width=20%>Проект</td> <td width="40%">Завдання</td> <td width="10%">Роль</td><td width="10%">Відпрацьовано</td><td width="10%">Статус таску</td></tr>
+                                                <tr><td colspan="5"><hr></td></tr>
+                                                <c:forEach items="${task_userList}" var="t_u">
+                                                    <tr>
+                                                        <td width="20%"><b>${t_u.task.project.name}</b></td> <td width="40%">${t_u.task.title}</td> <td width="5%">${t_u.access}</td> <td width="5%" align="center"><c:if test="${t_u.access=='Owner'}">${t_u.spentTime} год.</c:if></td><td width="15%"><u>${t_u.task.status}</u></td>
+
+                                                    </tr>
+                                                    <tr><td width="100%" colspan="5"><hr></td></tr>
+
+                                                </c:forEach>
+
+                                            </table>
+                                        </ul>
+                                        <br><br>
+
+                                        <c:if test="${fn:length(user.projectList) gt 0}">
+                                            <ul>
+                                                Є менеджером проектів :
+
+                                                <c:forEach items="${user.projectList}" var="project">
+                                                    <li>
+                                                        <b>${project.name}</b>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </c:if>
+
+                                    </div>
 
 
-                    </div>
+                                </div>
 
                 </div>
                 <iframe src="/getUsers/0" style="height:600px;border:0px; margin: 20px 0px 0px 0px" />

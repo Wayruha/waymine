@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 public class ProjectForm {
     private int id;
     @Size(min=2, max=30, message = "Не має бути пустим")
-    private String title;
+    private String name;
     private String description;
     private String manager;
     private ProjectType type;
@@ -21,7 +21,7 @@ public class ProjectForm {
 
     public ProjectForm(Project project) {
         this.id=project.getId();
-        this.title=project.getName();
+        this.name=project.getName();
         this.description=project.getDescription();
         this.manager=project.getManager()==null?"":project.getManager().getLogin();
         this.type=project.getType();
@@ -53,11 +53,11 @@ public class ProjectForm {
 
 
     public String getTitle() {
-        return title;
+        return name;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.name = title;
     }
 
     public String getDescription() {

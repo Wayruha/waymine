@@ -25,7 +25,8 @@ public class HelloController {
 
     @RequestMapping(value = {"/","","index","index.jsp"})
     public String index(Principal principal){
-        if(principal!=null) return "home";
+        System.out.println("INDEX з контроллера бля!");
+        if(principal!=null) return "redirect:/userinfo/"+adsDao.getUserByLogin(principal.getName()).getId();
         else return "index";
 
 
@@ -51,13 +52,17 @@ public class HelloController {
     }
 
 
-    @RequestMapping(value = {"/top","{top}"},method = RequestMethod.GET)
-    public ModelAndView to(Principal principal){
+    @RequestMapping(value = "{someAddress}",method = RequestMethod.GET)
+    public ModelAndView error404(){
+        return new ModelAndView("error404");
+
+    }
+
+    @RequestMapping(value = {"/top"},method = RequestMethod.GET)
+    public ModelAndView top(Principal principal){
         ModelAndView mav=new ModelAndView("top");
-        if(principal!=null){
-            System.out.println(principal.getName());
+        if(principal!=null)
             mav.addObject("login",principal.getName());
-        }
         return mav;
     }
 
@@ -117,7 +122,7 @@ public class HelloController {
         return mav;
     }
 
-    @RequestMapping(value="/completeRegistration",method=RequestMethod.POST)
+    @RequestMapping(value="/completeRegistration")
     public String registration(User user,HttpServletRequest request){
         String code=request.getParameter("registrationCode");
         RegistrationCode regCode=adsDao.getRegistrationCode(code);

@@ -17,7 +17,7 @@ public class UserController {
     @Autowired
     private AdsDao adsDao;
 
-    @RequestMapping(value="userinfo/{user}")                                         //TODO налаштування приватності
+    @RequestMapping(value="userinfo/{user}")
     public ModelAndView getUserProfile(@PathVariable("user") int id){
         ModelAndView mav=new ModelAndView("userProfile");
         User user =adsDao.getUserById(id);
@@ -27,6 +27,8 @@ public class UserController {
         mav.addObject("task_userList",list);
         return mav;
     }
+
+
     @RequestMapping(value = "getUsers/{from}")
     public ModelAndView getUsers (@PathVariable("from") int projectId){
         ModelAndView mav=new ModelAndView("users");

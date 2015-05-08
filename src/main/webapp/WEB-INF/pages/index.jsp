@@ -18,6 +18,17 @@
 <body class="">
 <%--<iframe src="top" width="100%" height="170px" scrolling="no" border="0px"></iframe>--%>
 <div class="navbar navbar-default navbar-static-top" style="min-height: 90px;">
+    <%   System.out.println("try redirect");
+
+        if(request.getUserPrincipal()!=null)
+        { String site = new String("/index");
+            response.setStatus(response.SC_MOVED_TEMPORARILY);
+            response.setHeader("Location", site);
+
+        }
+        // New location to be redirected
+
+    %>
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -33,6 +44,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right" style=""></ul>
             <div class="row text-left" style="" draggable="true">
+             <%--   <c:when test="${pageContext.session.valueNames}"></c:when>--%>
                 <div class="col-md-4 col-md-offset-5" style="" draggable="true">
                     <c:if test="${not empty param.error}">
                         <font color="red"> <spring:message code="label.loginerror" />

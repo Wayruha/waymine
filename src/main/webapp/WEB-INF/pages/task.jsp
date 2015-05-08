@@ -3,6 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="az.mecid.enums.Access" %>
 <!DOCTYPE html>
 <html>
@@ -109,15 +110,17 @@
                 </c:if>
                         <br>
                 <c:if test="${role!=null}">
-                        <form action="/projects/addComment?taskId=${task.id}&login=${t_u.user.login}" method="get">
+                        <form:form action="/projects/addComment?taskId=${task.id}&login=${t_u.user.login}" method="get" >
+                      <%--  <form action="/projects/addComment?taskId=${task.id}&login=${t_u.user.login}" method="get">--%>
                             <table style="width: 100%;">
                                 <tr>
-                                    <td padding="20" style="margin-right:30px"><textarea class="form-control"
+                                    <td padding="20" style="margin-right:30px"> <form:input path="manager" class="form-control" id="manager" />
+                                        <%--<textarea class="form-control"
                                                                                          name="text" id="textarea"
                                                                                          type="text"
                                                                                          placeholder="Leave your comment"
                                                                                          rows="4"
-                                                                                         onfocus="this.value=''"></textarea>
+                                                                                         onfocus="this.value=''"></textarea>--%>
                                     </td>
                                     <td style="width: 10%; padding:30px"><input type="submit" class="btn-lg" style=""
                                                                                 value="Post"></td>
@@ -125,7 +128,8 @@
 
                                 </tr>
                             </table>
-                        </form>
+                    </form:form>
+                        <%--</form>--%>
                 </c:if>
                         <c:if test="${t_u!=null}">  <p style="text-align: left;vertical-align: top"><font size="2" color="#a9a9a9">Have been working
                             for ${t_u.spentTime} hours. Last fixed time at ${t_u.lastFixedActivity} </font></p>

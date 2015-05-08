@@ -1,4 +1,5 @@
 <%@ page import="az.mecid.models.Task" %>
+<%@ page import="az.mecid.enums.ProjectType" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -24,7 +25,7 @@
 
             var imgMinus=document.createElement("img");
             imgMinus.align="right";
-            imgMinus.src="data/minus.png";
+            imgMinus.src="<c:url value='${pageContext.request.contextPath}/assets/minus.png'/>";
             imgMinus.name=userId;
             imgMinus.onclick=returnToUl;
             pre.appendChild(node);// Забрать
@@ -103,7 +104,7 @@
                     <c:if test="${project.editing==false}"><td><font size="+3">Creating project</font></td>
                         <td style="text-align: right"><font size="+3">Add users</font></td>
                     </c:if>
-                    <c:if test="${project.editing==true}"><td><font size="+3">Creating project</font></td>
+                    <c:if test="${project.editing==true}"><td><font size="+3">Editing project</font></td>
                         <td style="text-align: right"><font size="+3">Users in project</font></td>
                     </c:if>
 
@@ -119,15 +120,16 @@
                                 Не вірно заповнені поля
                             </font>
                         </c:if>
-                        <form:form action="/form/saveProject" modelAttribute="ProjectForm" class="form-horizontal" role="form" name="form">
+                        <form:form action="/form/saveProject" modelAttribute="ProjectForm" method="get" class="form-horizontal" role="form" name="form">
 
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label for="title" class="control-label">Title</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <form:input path="title" class="form-control" id="title" value="${project.title}"/>
-                                    <!-- Сюди треба поставити перевірку чи можна вводити такі дані-->
+
+                                   <form:input path="title" class="form-control" id="title" value="${project.title}"/>
+
                                 </div>
                                 <div class="col-sm-4">
                                     <c:if test="${error=='title'}">
@@ -152,7 +154,7 @@
                                     <label for="manager" class="control-label">Set manager</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <form:input path="manager" class="form-control" id="manager"  value="${project.manager}"/>
+                                    <form:input path="manager" class="form-control" id="manager" value="${project.manager}"/>
                                 </div>
                                 <div class="col-sm-4">
                                     <c:if test="${error=='manager'}">
@@ -168,17 +170,19 @@
                                     <label for="description" class="control-label">Type</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <form:radiobuttons path="type" items="${radioTypeList}" style="margin:0px 10px"/>
+                                    <b>Public</b> <input type="radio" name="type" value="Public"   checked />
+                                    <b>Private</b> <input type="radio" name="type" value="Private"  <c:if test="${project.type=='Private'}"> checked </c:if>/>
+
                                 </div>
                              </div>
                             <hr>
                                 <div class="form-group">
-                                <div class="col-sm-2">
+                                <div class="col-sm-3">
                                 <label class="control-label">Involved users</label>
                                 </div>
                                     <div class="col-sm-6" id="listOfUsers">
                                         <c:forEach items="${userListInProject}" var="user">
-                                         <pre style="height:40px">${user.login}&nbsp;&nbsp;&nbsp;<img src="data/minus.png" height="20" align="right" name="${user.id}" />
+                                         <pre style="height:40px">${user.login}&nbsp;&nbsp;&nbsp;<img src="<c:url value="${pageContext.request.contextPath}/assets/minus.png"/>" height="20" align="right" name="${user.id}" />
                                          </pre>
                                         </c:forEach>
                                     </div>
@@ -200,8 +204,7 @@
                         <c:forEach items="${allUserList}" var="user">
                             <li class="list-group-item" id="${user.id}"><a href="/userinfo/${user.id}"
                                                                            target="_top">${user.login}</a>
-                                    <span class="badge" id="badge/${user.id}"><img src="data/plus.png"
-                                                                                   onclick="addToManagedUsers(${user.id})"/></span>
+                                    <span class="badge" id="badge/${user.id}"><img src='<c:url value="${pageContext.request.contextPath}/assets/plus.png"/>' onclick="addToManagedUsers(${user.id})"/></span>
                             </li>
                         </c:forEach>
                     </ul>

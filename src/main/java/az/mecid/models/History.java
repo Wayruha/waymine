@@ -3,6 +3,7 @@ package az.mecid.models;
 import az.mecid.enums.HistoryAction;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name="history")
@@ -12,6 +13,9 @@ public class History implements DataEntity {
     @GeneratedValue
     @Column(name="id")
     private int id;
+
+    @Column(name="date")
+    private Date date;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="actor")
@@ -31,9 +35,20 @@ public class History implements DataEntity {
         this.actor = actor;
         this.action = action;
         this.object = object;
+        this.date=new java.sql.Date(new java.util.Date().getTime());
     }
 
     public History() {
+        this.date=new java.sql.Date(new java.util.Date().getTime());
+    }
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getInTask() {

@@ -73,7 +73,7 @@
                                <span class="error">You can`t register on this link. Ask for another invite.</span>
                                </c:if>
                         </center>
-                        <form:form action="/completeRegistration" modelAttribute="User" class="form-horizontal" role="form" name="form">
+                        <form:form action="/completeRegistration" modelAttribute="User" method="get" class="form-horizontal" role="form" name="form">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <div class="col-sm-3">
