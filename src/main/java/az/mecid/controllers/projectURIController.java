@@ -137,6 +137,7 @@ public class projectURIController {
     @RequestMapping(value = "addComment", method = RequestMethod.GET)
     public String addComment(@RequestParam("taskId") int taskId, @RequestParam("text") String text, Principal principal) {
         Task task = adsDao.getTaskById(taskId);
+        System.out.println("Add Comment have comment: "+text);
         Comment comm = new Comment(task, principal.getName(), text);
         adsDao.save(comm);
         return "redirect:/projects/task/" + taskId;
@@ -156,7 +157,5 @@ public class projectURIController {
 
     }                                    //Або ж вернути новий таскЛіст, якшо будуть трабли
 
-    public void checkForAccess() {
 
-    }
 }

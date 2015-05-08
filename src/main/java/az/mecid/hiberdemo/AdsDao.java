@@ -48,9 +48,9 @@ public class AdsDao extends HibernateDaoSupport {
     }
 
     public List<Project> getProjectsForUser(User user) {
-        List<Task_User> t_uList=getTasksByUser(user.getId());
         List<Project> open_projectsList=new ArrayList<Project>();
-        open_projectsList.addAll((List<Project>) getHibernateTemplate().find("SELECT project FROM Project as project WHERE project.type=?", ProjectType.Public));
+        open_projectsList.addAll((List<Project>) getHibernateTemplate().find("SELECT project FROM Project as project WHERE project.type=? OR project.manager=?", ProjectType.Public,user));
+        List<Task_User> t_uList=getTasksByUser(user.getId());
         for(Task_User t_u: t_uList)
         {
             if(t_u.getTask()==null) {

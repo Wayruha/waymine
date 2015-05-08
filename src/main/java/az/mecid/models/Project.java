@@ -26,7 +26,7 @@ public class Project implements DataEntity {
 
     @Column(name="type")
     @Enumerated(EnumType.STRING)
-    private ProjectType type;
+    private ProjectType type=ProjectType.Public;
 
 
     @Column(name="date_of_creating")

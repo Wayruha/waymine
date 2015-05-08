@@ -65,10 +65,13 @@ public class FormController {
         listForRadio.add(ProjectType.Private);
         listForRadio.add(ProjectType.Public);
         List<User> allUserList=adsDao.getUsers(0);
+        ProjectForm projectForm=new ProjectForm();
+        projectForm.setManager(principal.getName());
+
         mav.addObject("allUserList",allUserList);
         mav.addObject("login",principal.getName());
         mav.addObject("radioTypeList",listForRadio);
-        mav.addObject("project",new ProjectForm());
+        mav.addObject("project",projectForm);
         mav.addObject("error",error);
         return mav;
     }
@@ -76,9 +79,10 @@ public class FormController {
     @RequestMapping(value="/saveProject")
     public String processEditProj(ProjectForm saveForm, Principal principal){
         boolean editing=saveForm.getEditing();
+        System.out.println("SaveProject have project title : "+saveForm.getTitle());
         String managerStr = saveForm.getManager();
         User manager;                                 //це краще не трогати
-        if(!managerStr.trim().isEmpty())
+        if(managerStr.trim().length()<2)
             if(adsDao.getUsersByLogin(managerStr).size()==0)
                 if (saveForm.getEditing()==true)
                     return "redirect:/form/editProject/?error=manager";
@@ -102,7 +106,7 @@ public class FormController {
        if(!adsDao.isProjectByTitle(saveForm.getTitle()) || editing)
        {
            Project oldProject=adsDao.getProjectById(saveForm.getId());  //Буде тільки якщо редагується проект
-           String[] arrUsers=saveForm.getUserList().split("--");
+           String[] arrUsers=saveForm.getUserList().split(" --");
            List<User>newUserList=new ArrayList<User>();
            for (String login:arrUsers)
                 newUserList.add(adsDao.getUserByLogin(login.trim()));
