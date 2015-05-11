@@ -9,7 +9,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Userinfo</title>
+    <title>User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -35,6 +35,13 @@
                 <li>
                     <a href="/projects" target="_top">Projects</a>
                 </li>
+                <li class="pull-right" id="taskButt">
+                    <a href="/form/createTask/${projectId}" target="_top">New task</a>
+                </li>
+                <li class="pull-right">
+                    <a href="/form/createProject" target="_top">New project</a>
+                </li>
+
                 <li class="pull-right active">
                     <a href="#" target="_top">Users</a>
                 </li>
@@ -57,19 +64,19 @@
                          </tr>
                      </table>
 
-                    Ел.адреса:${user.eMail}         <br/>
-                    Таски в яких задіяний:<br/>
+                    E-mail : <u>${user.eMail}</u>
+                    <h3><small>Involved in</small></h3>
                     <ul>
                         <br>
-                        <table width="100%">
-                            <tr><td width=20%>Проект</td> <td width="40%">Завдання</td> <td width="10%">Роль</td><td width="10%">Відпрацьовано</td><td width="10%">Статус таску</td></tr>
-                            <tr><td colspan="5"><hr></td></tr>
+                        <table width="100%" class="table table-bordered">
+                            <tr><th width=20%>Project</th> <th width="40%">Task</th> <th width="10%">Role</th><th width="10%">Spent time</th><th width="10%">Task status</th></tr>
+
                     <c:forEach items="${task_userList}" var="t_u">
                             <tr>
-                            <td width="20%"><b>${t_u.task.project.name}</b></td> <td width="40%">${t_u.task.title}</td> <td width="5%">${t_u.access}</td> <td width="5%" align="center"><c:if test="${t_u.access=='Owner'}">${t_u.spentTime} год.</c:if></td><td width="15%"><u>${t_u.task.status}</u></td>
+                            <th width="20%"><b>${t_u.task.project.name}</b></th> <th width="40%">${t_u.task.title}</th> <th width="5%">${t_u.access}</th> <th width="5%" align="center"><c:if test="${t_u.access=='Owner'}">${t_u.spentTime} год.</c:if></th><th width="15%"><u>${t_u.task.status}</u></th>
 
                             </tr>
-                            <tr><td width="100%" colspan="5"><hr></td></tr>
+
 
                     </c:forEach>
 
@@ -79,7 +86,7 @@
 
                     <c:if test="${fn:length(user.projectList) gt 0}">
                     <ul>
-                         Є менеджером проектів :
+                         Manage projects :
 
                         <c:forEach items="${user.projectList}" var="project">
                           <li>

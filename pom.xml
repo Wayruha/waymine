@@ -5,8 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>Redmine</groupId>
     <artifactId>Redmine</artifactId>
+
+
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
+
 
     <properties>
         <spring.version>4.1.0.RELEASE</spring.version>
@@ -92,22 +95,7 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.securiry}</version>
         </dependency>
-        <!-- <dependency>
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-config</artifactId>
-          <version>${spring.securiry}</version>
-      </dependency>
--->
-       <!-- <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring.securiry}</version>
-        </dependency>
 
-
-
-
--->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
@@ -126,6 +114,11 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>

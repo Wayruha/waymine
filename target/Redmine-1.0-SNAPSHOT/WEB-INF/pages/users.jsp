@@ -26,10 +26,10 @@
                       <span class="badge">
                       <c:choose>
                           <c:when test="${user.role=='ROLE_MODERATOR'}">
-                              <img src="data/manager2.svg" alt="Manager">
+                              <img src="<c:url value="${pageContext.request.contextPath}/assets/manager.png"/>" alt="Manager">
                           </c:when>
                           <c:otherwise>
-                              <img src="data/employee.png" alt="Employee">
+                              <img src="<c:url value="${pageContext.request.contextPath}/assets/employee.png"/>" alt="Employee">
                           </c:otherwise>
                       </c:choose>
                       </span>
@@ -43,10 +43,10 @@
                       <span class="badge">
                       <c:choose>
                           <c:when test="${t_u.access=='Owner'}">
-                              <img src="data/userOwner.png" alt="Owner">
+                              <img src="<c:url value="${pageContext.request.contextPath}/assets/userOwner.png"/>" alt="Owner">
                           </c:when>
                           <c:otherwise>
-                              <img src="data/userObserver.png" alt="Observer">
+                              <img src="<c:url value="${pageContext.request.contextPath}/assets/userObserver.png"/>" alt="Observer">
                           </c:otherwise>
                       </c:choose>
                       </span>
