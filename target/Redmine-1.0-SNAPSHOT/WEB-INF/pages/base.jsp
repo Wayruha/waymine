@@ -74,15 +74,15 @@
                         <tr>
                             <td width="90%"> <font size="5"><a  href="/projects/${project.id}">${project.name}</a></font></td>
                             <sec:authorize url="/form/">
-                                <td> <a href="/projects/info/${project.id}" ><img src="<c:url value='resources/data/plus.png'/>"/></a>  </td>
-                                <td> <a href="/form/editProject/${project.id}" ><img src="/resources/data/plus.png"/></a>  </td>
+                                <td> <a href="/projects/info/${project.id}" ><img src="<c:url value="${pageContext.request.contextPath}/assets/tasks.png"/>"/></a>  </td>
+                                <td> <a href="/form/editProject/${project.id}" ><img src="<c:url value="${pageContext.request.contextPath}/assets/edit.png"/>"/></a>  </td>
                             </sec:authorize>
 
                         </tr>
 
                     </table>
                         <br>
-                        <img src='<c:url value="/resources/data/plus.png"/>'/>
+
                         ${project.description}
                         <br>
                         <br>
@@ -98,7 +98,7 @@
                     <div style="width: 100%; margin: 3em auto; padding: 1em; box-shadow:
                         -20px 20px 0 -17px #f5f5f5, 20px -20px 0 -17px #f5f5f5, 20px 20px 0 -20px #c27153, 0 0 0 2px #c27153; word-wrap:break-word;">
                         <c:forEach items="${history}" var="historyPost">
-                            <p><b>${historyPost.actor.login}</b> <spring:message code="history.${historyPost.action}" />: <u> ${historyPost.object}</u></p>
+                            <p><u>${historyPost.date}</u>: <b>${historyPost.actor.login}</b> <spring:message code="history.${historyPost.action}" />: <u> ${historyPost.object}</u></p>
                         </c:forEach>
                      </div>
                 </c:if>

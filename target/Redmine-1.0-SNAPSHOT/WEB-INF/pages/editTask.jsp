@@ -8,7 +8,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Task</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -26,7 +26,7 @@
             var select=document.createElement('select');
             var imgMinus=document.createElement("img");
             imgMinus.align="right";
-            imgMinus.src="data/minus.png";
+            imgMinus.src="<c:url value="${pageContext.request.contextPath}/assets/minus.png"/>";
             imgMinus.name=userId;
             imgMinus.onclick=returnToUl;
             select.options[0]=new Option("Owner","<%=Access.Owner%>");
@@ -122,7 +122,7 @@
                 <div class="col-md-8 pull-left">
                     <br>
                     <div class="well" style="border-radius:10px">
-                        <form:form action="/form/saveTask?project=${projectId}" modelAttribute="TaskForm" class="form-horizontal" role="form" name="form">
+                        <form:form action="/form/saveTask?project=${projectId}" modelAttribute="TaskForm" class="form-horizontal" role="form" name="form" method="get">
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label for="title" class="control-label">Title</label>
@@ -157,7 +157,7 @@
                                          <pre>${t_u.user.login}&nbsp;&nbsp;&nbsp;&nbsp;<select>
                                              <option value="<%=Access.Owner%>" title="Owner"<c:if test="${t_u.access=='Owner'}">selected="selected" </c:if>>Owner </option>
                                              <option value="<%=Access.Observer%>" title="Observer" <c:if test="${t_u.access=='Observer'}">selected="selected"</c:if>>Observer</option>
-                                             </select>   <img src="data/minus.png" align="right" name="${t_u.user.id}" />
+                                             </select>   <img src="<c:url value="${pageContext.request.contextPath}/assets/minus.png"/>" align="right" name="${t_u.user.id}" />
                                          </pre>
                                      </c:forEach>
                                 </div>
@@ -194,7 +194,7 @@
 
                             <c:forEach items="${userList}" var="user">
                                     <li class="list-group-item" id="${user.id}"><a href="/userinfo/${user.id}"  target="_top" >${user.login}</a>
-                                    <span class="badge"  id="badge/${user.id}"><img src="data/plus.png" onclick="addToManagedUsers(${user.id})"/></span>
+                                    <span class="badge"  id="badge/${user.id}"><img src="<c:url value="${pageContext.request.contextPath}/assets/plus.png"/>" onclick="addToManagedUsers(${user.id})"/></span>
                                 </li>
                             </c:forEach>
                     </ul>

@@ -25,7 +25,6 @@ public class HelloController {
 
     @RequestMapping(value = {"/","","index","index.jsp"})
     public String index(Principal principal){
-        System.out.println("INDEX з контроллера бля!");
         if(principal!=null) return "redirect:/userinfo/"+adsDao.getUserByLogin(principal.getName()).getId();
         else return "index";
 
