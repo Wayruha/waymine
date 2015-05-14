@@ -1,0 +1,43 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <http access-denied-page="/WEB-INF/pages/error403.jsp">
+        <anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />
+        <!--<intercept-url pattern="/index*" access="ROLE_USER,ROLE_ANONYMOUS" />-->
+        <intercept-url pattern="/form/*" access="ROLE_ADMIN, ROLE_MODERATOR" />
+        <intercept-url pattern="/form/*/*" access="ROLE_ADMIN, ROLE_MODERATOR" />
+        <intercept-url pattern="/delete/*" access="ROLE_ADMIN" />
+        <intercept-url pattern="/inviteUser/" access="ROLE_ADMIN,ROLE_MODERATOR" />
+        <intercept-url pattern="/projects*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
+        <intercept-url pattern="/projects/*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
+        <intercept-url pattern="/projects/*" access="ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR" />
+        <intercept-url pattern="/projects/info/*" access="ROLE_ADMIN,ROLE_MODERATOR" />
+       <!-- <intercept-url pattern="/registration" access="ROLE_ANONYMOUS" />-->
+        <form-login login-page="/index.jsp" default-target-url="/projects"
+                    authentication-failure-url="/index.jsp?error=true" />
+        <logout logout-url="/logout" logout-success-url="/index.jsp" />
+
+        <remember-me />
+
+    </http>
+
+
+    <authentication-manager>
+        <authentication-provider>
+           <!-- <user-service>
+                <user name="Wayruha" password="wayruha23" authorities="ROLE_ADMIN,ROLE_MODERATOR,ROLE_USER"/>
+            </user-service>-->
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="select login,password, enabled from _user where login=?"
+                               authorities-by-username-query="select login, role from _user where login =?  " />
+        </authentication-provider>
+    </authentication-manager>
+
+
+
+
+</beans:beans>
