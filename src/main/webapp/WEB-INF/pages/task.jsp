@@ -111,16 +111,16 @@
                         <br>
                 <c:if test="${role!=null}">
                         <form:form action="/projects/addComment?taskId=${task.id}&login=${t_u.user.login}" method="get" >
-                      <%--  <form action="/projects/addComment?taskId=${task.id}&login=${t_u.user.login}" method="get">--%>
+
                             <table style="width: 100%;">
                                 <tr>
-                                    <td padding="20" style="margin-right:30px"> <form:input path="manager" class="form-control" id="manager" />
-                                        <%--<textarea class="form-control"
+                                    <td padding="20" style="margin-right:30px">
+                                        <textarea class="form-control"
                                                                                          name="text" id="textarea"
                                                                                          type="text"
                                                                                          placeholder="Leave your comment"
                                                                                          rows="4"
-                                                                                         onfocus="this.value=''"></textarea>--%>
+                                                                                         onfocus="this.value=''"></textarea>
                                     </td>
                                     <td style="width: 10%; padding:30px"><input type="submit" class="btn-lg" style=""
                                                                                 value="Post"></td>
