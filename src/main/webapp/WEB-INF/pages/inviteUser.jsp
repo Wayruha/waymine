@@ -77,24 +77,14 @@
                             <form action="/inviteUser" method="post">
 
                                 <div class="form-group">
-                                    <div class="col-sm-4">
-                                        <label for="generatedCode" class="control-label">Generated code</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" id="generatedCode" name="generatedCode" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-2">
-                                            <a  href="#" class="btn btn-sm btn-info"  onclick="generateCode()">Generate</a>
-                                        </div>
-                                    </div>
+
                                     <br>
                                     <hr>
                                     <div class="col-sm-4">
-                                        <label for="generatedCode" class="control-label">E-mail</label>
+                                        <label for="e_mail" class="control-label">E-mail</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" name="e_mail" class="form-control"
+                                        <input type="text" name="e_mail" id="e_mail" class="form-control"
                                                placeholder="Enter e-mail">
                                     </div>
                                     <br>
