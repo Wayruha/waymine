@@ -1,9 +1,7 @@
 package az.mecid.controllers;
 
-import az.mecid.enums.HistoryAction;
 import az.mecid.hiberdemo.AdsDao;
 import az.mecid.mail.MyMail;
-import az.mecid.models.History;
 import az.mecid.models.Project;
 import az.mecid.models.RegistrationCode;
 import az.mecid.models.User;
@@ -84,22 +82,17 @@ public class HelloController {
     @RequestMapping(value = "/inviteUser", method = RequestMethod.POST)
     public String inviteUserSendMail(HttpServletRequest request,Principal principal) {
         String e_mail=request.getParameter("e_mail");
-        String code=request.getParameter("generatedCode");
-        User user=adsDao.getUserByLogin(principal.getName());
-            boolean type = request.getParameter("isManager") == "true" ? true : false; //TODO відправляється повідомлення на меіл. Робиться запис в БД з кодом доступу
-            if (code.length() < 2) return "Back";
-            while (adsDao.getRegistrationCode(code)!=null)    //якшо такий код є то модифікуєм його)
-                code += "-2";
-            RegistrationCode regCode = new RegistrationCode(code, type,user);
-            adsDao.save(regCode);
+        String generetedKey=encrypt(e_mail);
+
+
         try
         {
             ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
             MyMail mail = (MyMail) context.getBean("myMail");
-            mail.sendMail("Wayruha@WayMine.com", e_mail, "Registration in WayMine ", "Hello, mzfk. Here is your registration link. \r\n http.www.waymine.com/registration?c="+code+" But there isn`t our site in the WEB yet. ");
+            mail.sendMail("Wayruha@WayMine.com", e_mail, "Registration in WayMine ", "Hello, mzfk. Here is your registration link. \r\n http://localhost:8080/registration?c="+generetedKey+"&ml="+e_mail+" But there isn`t our site in the WEB yet. ");
             System.out.println("Mail sended to " + e_mail);
         } catch (Exception e){
-            adsDao.delete(regCode);
+
            return "redirect:/inviteUser?status=error";
         }
         return "redirect:/inviteUser?status=success";
@@ -107,10 +100,10 @@ public class HelloController {
 
 
     @RequestMapping(value="/registration",method=RequestMethod.GET)
-    public ModelAndView registration(@RequestParam("c")String code,@RequestParam(value="error",required = false) String error, Principal principal){
+    public ModelAndView registration(@RequestParam("c")String code,@RequestParam("ml")String e_mail,@RequestParam(value="error",required = false) String error, Principal principal){
         ModelAndView mav=new ModelAndView();
-        RegistrationCode regCode=adsDao.getRegistrationCode(code);                     /////ПРОБЛЕМИ
-        if(regCode==null || regCode.getIsRegistered()==true)
+        RegistrationCode regCode=adsDao.getRegistrationCode(code);
+            if(!code.equals(encrypt(e_mail)))            //умова дешифрації
             mav.setViewName("error403");
         else {
             mav.setViewName("registration");
@@ -124,16 +117,11 @@ public class HelloController {
     @RequestMapping(value="/completeRegistration")
     public String registration(User user,HttpServletRequest request){
         String code=request.getParameter("registrationCode");
-        RegistrationCode regCode=adsDao.getRegistrationCode(code);
-        if(regCode==null) return "registration?c="+code+"&error=unknown";
+
         if(adsDao.getUserByLogin(user.getLogin())!=null) return "registration?c="+code+"&error=login";
         adsDao.save(user);   //todo ЗБЕРЕГТИ історію
-        regCode.setIsRegistered(true);
-        regCode.setUser(user);
 
-        adsDao.update(regCode);
 
-        adsDao.save(new History(regCode.getInvitedBy(), HistoryAction.invite_user,user.getLogin()));
         return "redirect:/";      //реєсрація вдалася
     }
 
@@ -141,5 +129,55 @@ public class HelloController {
     public User getUser() {
         return new User();
     }
+
+    public String encrypt(String text)
+    {
+        char[] chrArr=text.toCharArray();
+        StringBuilder strBld=new StringBuilder();
+        for(int i=0;i<chrArr.length;i++) {
+           char chr = chrArr[i];
+            strBld.append(Character.toChars(chr * (chrArr.length - i + 1) % 74 + 48) );
+        }
+        return strBld.toString();
+    }
+   /* public String decrypt(String text)
+    {
+        int con=Integer.getInteger(text.substring(0, 3));
+        text=text.substring(3);
+        char[] chrArr=text.toCharArray();
+
+        StringBuilder strBld=new StringBuilder();
+        for(int i=0;i<chrArr.length;i++) {
+            char chr = chrArr[i];
+           // char newChr=chr+con*(chrArr.length-i+1)*256;
+            char chsr=(char)3000;
+            //strBld.append(newChr);
+        }
+        return strBld.toString();
+    }*/
+  /*  public String encrypt(String text, String keyWord)
+    {
+        byte[] arr = text.getBytes();
+        byte[] keyarr = keyWord.getBytes();
+        byte[] result = new byte[arr.length];
+        for(int i = 0; i< arr.length; i++)
+        {
+            result[i] = (byte) (arr[i] ^ keyarr[i % keyarr.length]);
+        }
+        String res=new String(result);
+        return res;
+    }*/
+   /* public String decrypt(String string, String keyWord)
+    {
+        byte[] text=string.getBytes();
+        byte[] result  = new byte[text.length];
+        byte[] keyarr = keyWord.getBytes();
+        for(int i = 0; i < text.length;i++)
+        {
+            result[i] = (byte) (text[i] ^ keyarr[i% keyarr.length]);
+        }
+        return new String(result);
+    }*/
+
 
 }
