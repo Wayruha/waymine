@@ -25,7 +25,7 @@
 
             var imgMinus=document.createElement("img");
             imgMinus.align="right";
-            imgMinus.src="<c:url value='${pageContext.request.contextPath}/assets/minus.png'/>";
+            imgMinus.src="<c:url value='${pageContext.request.contextPath}/data/minus.png'/>";
             imgMinus.name=userId;
             imgMinus.onclick=returnToUl;
             pre.appendChild(node);// Забрать
@@ -182,11 +182,10 @@
                                 </div>
                                     <div class="col-sm-6" id="listOfUsers">
                                         <c:forEach items="${userListInProject}" var="user">
-                                         <pre style="height:40px">${user.login}&nbsp;&nbsp;&nbsp;<img src="<c:url value="${pageContext.request.contextPath}/assets/minus.png"/>" height="20" align="right" name="${user.id}" />
+                                         <pre style="height:40px">${user.login}&nbsp;&nbsp;&nbsp;<img src="<c:url value="${pageContext.request.contextPath}/data/minus.png"/>" height="20" align="right" name="${user.id}" />
                                          </pre>
                                         </c:forEach>
                                     </div>
-
 
                             </div>
                             <a class="btn btn-primary btn-large" onclick="convertUserList();document.forms['form'].submit();">Save</a>
