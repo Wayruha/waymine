@@ -80,7 +80,7 @@
                         <table width="100%">
                             <tr>
                                 <td width="97%"> <font size="5"><a href="task/${task.id}">${task.title}</a></font></td>
-                                <sec:authorize url="/form/"><td> <a href="/form/editTask/${task.id}" ><img src="data/plus.png"/></a>  </td></sec:authorize>
+                                <sec:authorize url="/form/"><td> <a href="/form/editTask/${task.id}" ><img src="<c:url value="${pageContext.request.contextPath}/assets/edit.png"/>" alt="Change task"/></a>  </td></sec:authorize>
 
                             </tr>
 
