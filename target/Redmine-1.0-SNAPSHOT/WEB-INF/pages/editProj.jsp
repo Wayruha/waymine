@@ -3,12 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<%@page pageEncoding="windows-1251"%>
+        <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>WayMine</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -21,14 +22,14 @@
             var list=document.getElementById("listOfUsers");
             var li=document.getElementById(userId);
             var pre=document.createElement('pre');
-            var node=document.createTextNode(li.firstChild.text+'    ');    //   Р—Р°Р±СЂР°С‚СЊ
+            var node=document.createTextNode(li.firstChild.text+'    ');    //   Забрать
 
             var imgMinus=document.createElement("img");
             imgMinus.align="right";
             imgMinus.src="<c:url value='${pageContext.request.contextPath}/data/minus.png'/>";
             imgMinus.name=userId;
             imgMinus.onclick=returnToUl;
-            pre.appendChild(node);// Р—Р°Р±СЂР°С‚СЊ
+            pre.appendChild(node);// Забрать
             pre.appendChild(imgMinus)
             list.appendChild(pre);
             removeFromUl(userId);
@@ -52,7 +53,7 @@
             var list=document.getElementById("listOfUsers");
             var  PREs=list.getElementsByTagName("pre");
             var usersString="";
-            Array.prototype.forEach.call(PREs,function(el) {usersString+=el.childNodes[0].nodeValue.substr(0,el.childNodes[0].nodeValue.length-3)+"--";});         // С‡РѕРіРѕ 3? С‚Р°Рє С‚СЂРµР±Р°
+            Array.prototype.forEach.call(PREs,function(el) {usersString+=el.childNodes[0].nodeValue.substr(0,el.childNodes[0].nodeValue.length-3)+"--";});         // чого 3? так треба
 
             document.getElementById("userList").value=usersString;
 
@@ -117,7 +118,7 @@
                     <div class="well" style="border-radius:10px">
                         <c:if test="${error=='valid'}">
                             <font color="red">
-                                РќРµ РІС–СЂРЅРѕ Р·Р°РїРѕРІРЅРµРЅС– РїРѕР»СЏ
+                                Не вірно заповнені поля
                             </font>
                         </c:if>
                         <form:form action="/form/saveProject" modelAttribute="ProjectForm" method="get" class="form-horizontal" role="form" name="form">
@@ -128,7 +129,7 @@
                                 </div>
                                 <div class="col-sm-6">
 
-                                   <form:input path="title" class="form-control" id="title" value="${project.title}"/>
+                                   <form:input path="title" class="form-control" id="title"/>
 
                                 </div>
                                 <div class="col-sm-4">
@@ -145,7 +146,7 @@
                                     <label for="description" class="control-label">Description</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <form:textarea path="description" class="form-control" id="description" rows="8" value="${project.description}"/>
+                                    <form:textarea path="description" class="form-control" id="description" rows="8" value="awdwad"/>
                                 </div>
                             </div>
                             <hr>

@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>WayMine-projects managment</title>
+    <title>WayMine-projects management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -33,22 +34,26 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right" style=""></ul>
             <div class="row text-left" style="" draggable="true">
-             <%--   <c:when test="${pageContext.session.valueNames}"></c:when>--%>
+                <%--   <c:when test="${pageContext.session.valueNames}"></c:when>--%>
+                <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
                 <div class="col-md-4 col-md-offset-5" style="" draggable="true">
                     <c:if test="${not empty param.error}">
-                        <font color="red"> <spring:message code="label.loginerror" />
+                        <font color="red"> <spring:message code="label.loginerror"/>
                             : ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} </font>
                     </c:if>
                     <div class="col-md-12 text-center" draggable="true">
-                        <form class="form-vertical" role="form" method="POST"  action="<c:url value="/j_spring_security_check" />">
+                        <form class="form-vertical" role="form" method="POST"
+                              action="<c:url value="/j_spring_security_check" />">
                             <div class="form-group">
                                 <div class="col-sm-5">
-                                    <input type="login" class="form-control" id="inputEmail3" placeholder="Login" name="j_username">
+                                    <input type="login" class="form-control" id="inputEmail3" placeholder="Login"
+                                           name="j_username">
                                 </div>
                             </div>
                             <div class="form-group" draggable="true">
                                 <div class="col-sm-5">
-                                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="j_password">
+                                    <input type="password" class="form-control" id="inputPassword3"
+                                           placeholder="Password" name="j_password">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -59,13 +64,14 @@
                         </form>
                     </div>
                 </div>
+                </sec:authorize>
                 <a class="btn btn-info col-sm-1 pull-right" draggable="true">Admin</a>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12 col-md-offset-2" >
+    <div class="col-md-12 col-md-offset-2">
         <ul class="lead nav nav-pills">
             <li class="active">
                 <a href="/home" target="_top">Home</a>
@@ -86,17 +92,17 @@
         <div class="col-md-12" draggable="true" style="">
             <div class="" draggable="true">
                 <div class="col-md-8 pull-left">
-                    <h2>A lot of text</h2>  <br>
+                    <h2>Waymine - project management </h2>  <br>
 
                     <div class="well">
 
-                      Прівєтіки . Вітаємо на нашому сайті
+                        Now you can manage your projects easily with us.
 
 
                     </div>
 
                 </div>
-             <%--   <iframe src="/getUsers/all" style="border:0px; margin: 20px 0px 0px 0px" />--%>
+                    <%--   <iframe src="/getUsers/all" style="border:0px; margin: 20px 0px 0px 0px" />--%>
 
 
             </div>
@@ -104,6 +110,4 @@
     </div>
 </div>
 </body>
-
-
 </html>

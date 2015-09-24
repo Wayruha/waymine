@@ -3,6 +3,7 @@ package az.mecid.controllers;
 import az.mecid.enums.Access;
 import az.mecid.enums.HistoryAction;
 import az.mecid.enums.ProjectType;
+import az.mecid.enums.TaskStatus;
 import az.mecid.forms.ProjectForm;
 import az.mecid.forms.TaskForm;
 import az.mecid.forms.validators.SaveProjectValidator;
@@ -20,10 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Controller
@@ -38,12 +36,12 @@ public class FormController {
 
     @RequestMapping(value = "/editProject/{projectId}")
     public ModelAndView editProj(@PathVariable("projectId") int projectId,@RequestParam(required = false) String error,Principal principal){
-        ModelAndView mav=new ModelAndView("editProj");
         List<ProjectType> listForRadio=new ArrayList<ProjectType>();
         listForRadio.add(ProjectType.Private);
         listForRadio.add(ProjectType.Public);
         Project project=adsDao.getProjectById(projectId);
         ProjectForm projectForm=new ProjectForm(project);
+        ModelAndView mav=new ModelAndView("editProj","ProjectForm", projectForm);
         List<User> allUserList=adsDao.getUsers(0);
         List<User> userListInProject=adsDao.getUsers(projectId);
         projectForm.setEditing(true);
@@ -78,13 +76,13 @@ public class FormController {
 
     @RequestMapping(value="/saveProject")
     public String processEditProj(ProjectForm saveForm, Principal principal){
-        boolean editing=saveForm.getEditing();
+        boolean editing=saveForm.isEditing();
         System.out.println("SaveProject have project title : "+saveForm.getTitle());
         String managerStr = saveForm.getManager();
         User manager;                                 //це краще не трогати
         if(managerStr.trim().length()<2)
             if(adsDao.getUsersByLogin(managerStr).size()==0)
-                if (saveForm.getEditing()==true)
+                if (saveForm.isEditing()==true)
                     return "redirect:/form/editProject/?error=manager";
                 else
                     return "redirect:/form/createProject/?error=manager";
@@ -160,16 +158,21 @@ public class FormController {
         ModelAndView mav=new ModelAndView("editTask","TaskForm",taskForm);
         List<User> userList=adsDao.getUsers(task.getProject().getId());
         List<Task_User> t_uList=adsDao.getUsersRolesInTask(taskId);
+
+        List<TaskStatus> statusList=new ArrayList<TaskStatus>();
+        for (TaskStatus status1:TaskStatus.values())
+            statusList.add(status1);
+
         mav.addObject("userList",userList);
         mav.addObject("t_uList",t_uList);
         mav.addObject("login",principal.getName());
-
-            mav.addObject("taskId",taskId);
-            mav.addObject("task",taskForm);
-            mav.addObject("projectId",task.getProject().getId());
-
+        mav.addObject("taskId",taskId);
+        mav.addObject("task",taskForm);
+        mav.addObject("statusList",statusList);
+        mav.addObject("projectId",task.getProject().getId());
 
         return mav;
+
     }
 
     @RequestMapping(value = "/createTask/{projectId}")
@@ -186,16 +189,10 @@ public class FormController {
         return mav;
     }
 
-    @RequestMapping(value = "/saveTask")
-    public String processEditTask(@RequestParam("project") int projectId,TaskForm saveForm, BindingResult result){
-     //   ModelAndView mav=new ModelAndView("base");
-
-        System.out.println(saveForm.getTitle()+" тітл Сейв таск");
-        System.out.println(saveForm.getId()+" ID Сейв таск");
-        System.out.println(saveForm.getEditing()+" --Едітінг");
-        boolean editing=saveForm.getEditing();
+    @RequestMapping(value = "/saveTask/{project}")
+    public String processEditTask(@PathVariable("project") int projectId,TaskForm saveForm, BindingResult result){
+     boolean editing=saveForm.getEditing();
         if (saveTaskValidator.hasErrors(saveForm)) {
-            System.out.println("Помилка: "+result.getAllErrors().get(0).getDefaultMessage());
             System.out.println("Якісь помилки при заповненні сталися. перенаправляє назад на ЕдітПродж");
                 if (editing)
                     return "redirect:/form/editTask/"+saveForm.getId()+"?error=valid";
@@ -206,10 +203,11 @@ public class FormController {
         {
             String[] arrUsers=saveForm.getUserList().split("--");
             String[] arrAccesses=saveForm.getAccessList().split("--");
-            User creator=adsDao.getUserByLogin(saveForm.getCreator());
+            User creator= adsDao.getUserByLogin(saveForm.getCreator());
             Task newTask=new Task(saveForm,creator);
             newTask.setProject(adsDao.getProjectById(projectId));
             newTask.setDateOfCreating(new Date(new java.util.Date().getTime()));
+            /////////
             Set<Task_User> t_uList= new HashSet<Task_User>();                   /////////////
 
             for (int i=0;i<arrUsers.length;i++){                                 //Генеруємо масив <Task_User>
@@ -228,7 +226,7 @@ public class FormController {
             History history=new History();
             history.setActor(creator);
             if(editing) {
-                compareTwoObjects(oldTask,newTask, false,history);
+                compareTasks(oldTask,newTask, false,history);
                 adsDao.update(newTask);
             }
             else
@@ -254,12 +252,12 @@ public class FormController {
             return "redirect:/projects/"+projectId;
         } else {
             //Зробити ЕРОРИ
-            System.out.println("Тітл уже існує!");
+
             return "redirect:/form/createTask/"+projectId+"?error=title";
         }
     }
 
-    public void compareTwoObjects(DataEntity old,DataEntity _new, boolean isProj,History history){           //TODO!! шо за нах? Зробити аналогічно Проекту
+    public void compareTasks(DataEntity old,DataEntity _new, boolean isProj,History history){           //TODO!! шо за нах? Зробити аналогічно Проекту
         //Історія зберігається тут
         /*if(oldTask.getDescription()!=newTask.getDescription()) history.setAction(HistoryAction.change_task_description);
         if(oldTask.getStatus()!=newTask.getStatus()) history.setAction(HistoryAction.change_task_status);
@@ -269,7 +267,7 @@ public class FormController {
             Task oldTask=(Task) old;
             Task newTask=(Task) _new;
             history.setObject(oldTask.getTitle());
-            if(oldTask.getDescription()!=newTask.getDescription())history.setAction(HistoryAction.change_task_description);
+            if(!oldTask.getDescription().equals(newTask.getDescription()))history.setAction(HistoryAction.change_task_description);
             if(oldTask.getStatus()!=newTask.getStatus())history.setAction(HistoryAction.change_task_status);
             if(history.getAction()!=null) adsDao.save(history);
 
@@ -301,9 +299,9 @@ public class FormController {
     public void compareProjects(Project oldProj,Project newProj, History history,List<User> newUserList){
 
         history.setObject(oldProj.getName());
-        if(oldProj.getDescription()!=newProj.getDescription()) history.setAction(HistoryAction.change_project_description);
+        if(!oldProj.getDescription().equals(newProj.getDescription())) history.setAction(HistoryAction.change_project_description);
         if(oldProj.getType()!=newProj.getType()) history.setAction(HistoryAction.change_project_type);
-        if(oldProj.getManager()!=newProj.getManager()) history.setAction(HistoryAction.change_project_manager);
+        if(oldProj.getManager().equals(newProj.getManager())) history.setAction(HistoryAction.change_project_manager);
         if(history.getAction()!=null) adsDao.save(history);
 
         History usersHistory=new History();
@@ -312,15 +310,15 @@ public class FormController {
         List<User>oldUserList=adsDao.getUsers(oldProj.getId());
         List<String> oldUserLoginList=new ArrayList<String>();
         List<String> newUserLoginList=new ArrayList<String>();
-        for(User user:oldUserList)  {
-            System.out.println("OLD_userId:"+user.getLogin());
+        for(User user:oldUserList)
+          if(user!=null)
             oldUserLoginList.add(user.getLogin());
-        }
 
-        for(User user:newUserList) {
-            System.out.println("NEW_userId:"+user.getLogin());
-            newUserLoginList.add(user.getLogin());
-        }                                                                                         //// костилі( 2 години роботи ...(
+
+        for(User user:newUserList)
+
+            if(user!=null) newUserLoginList.add(user.getLogin());
+                                                                                                 //// костилі( 2 години роботи ...(
 
         User user;
         for(String userLogin:oldUserLoginList){

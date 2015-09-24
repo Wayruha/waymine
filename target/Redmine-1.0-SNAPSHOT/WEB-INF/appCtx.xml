@@ -31,13 +31,24 @@
     </bean>
     <import resource="spring-security.xml"/>
 
+    <!--для деплоя на Heroku-->
+ <!--    <bean class="java.net.URI" id="dbUrl">
+         <constructor-arg value="#{systemEnvironment['DATABASE_URL']}"/>
+     </bean>
+
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+         <property name="driverClassName" value="${database.driverClass}"/>
+         <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
+         <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
+         <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
+     </bean>-->
+    <!-- для локального хоста -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="${database.driverClass}"/>
         <property name="url" value="${database.url}"/>
         <property name="username" value="${database.username}"/>
         <property name="password" value="${database.password}"/>
     </bean>
-
     <util:properties id="hibernatePropertiesConfigurer" location="classpath:/hibernate.properties"/>
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

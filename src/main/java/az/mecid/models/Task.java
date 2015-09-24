@@ -16,10 +16,6 @@ public class Task implements DataEntity {
     @Column(name="id")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name="project_id")
-    private Project project;
-
     @Column(name="title")
     private String title;
 
@@ -44,30 +40,20 @@ public class Task implements DataEntity {
     @JoinColumn(name="creator")
     private User creator;
 
-    @OneToMany(mappedBy = "task",fetch = FetchType.EAGER)
-    private Set<Task_User> taskAndUserList;
-
-
-    public Task(){
-
-    }
-    public Task(TaskForm taskForm, User creator) {
-        this.id=taskForm.getId();
-        this.title=taskForm.getTitle();
-        this.description=taskForm.getDescription();
-        this.status=taskForm.getStatus();
-        this.creator=creator;
-
+    public Integer getId() {
+        return id;
     }
 
-
-    public Integer getPlannedTime() {
-        if(this.plannedTime==null) return 0;
-        return plannedTime;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setPlannedTime(Integer plannedTime) {
-        this.plannedTime = plannedTime;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -78,38 +64,21 @@ public class Task implements DataEntity {
         this.description = description;
     }
 
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public Set<Task_User> getTaskAndUserList() {
-        return taskAndUserList;
-    }
-
-    public void setTaskAndUserList(Set<Task_User> taskAndUserList) {
-        this.taskAndUserList = taskAndUserList;
-    }
-
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public Date getDateOfCreating() {
         return dateOfCreating;
     }
 
     public void setDateOfCreating(Date dateOfCreating) {
         this.dateOfCreating = dateOfCreating;
+    }
+
+    public Integer getPlannedTime() {
+        if(this.plannedTime==null) return 0;
+        return plannedTime;
+    }
+
+    public void setPlannedTime(Integer plannedTime) {
+        this.plannedTime = plannedTime;
     }
 
     public TaskStatus getStatus() {
@@ -128,13 +97,12 @@ public class Task implements DataEntity {
         this.partIsDone = partIsDone;
     }
 
-
-    public Integer getId() {
-        return id;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public Project getProject() {
@@ -144,6 +112,37 @@ public class Task implements DataEntity {
     public void setProject(Project project) {
         this.project = project;
     }
+
+    public Set<Task_User> getTaskAndUserList() {
+        return taskAndUserList;
+    }
+
+    public void setTaskAndUserList(Set<Task_User> taskAndUserList) {
+        this.taskAndUserList = taskAndUserList;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="project_id")
+    private Project project;
+
+    @OneToMany(mappedBy = "task",fetch = FetchType.EAGER)
+    private Set<Task_User> taskAndUserList;
+
+
+    public Task(){
+
+    }
+    public Task(TaskForm taskForm, User creator) {
+        this.id=taskForm.getId();
+        this.title=taskForm.getTitle();
+        this.description=taskForm.getDescription();
+        this.status=taskForm.getStatus();
+        this.creator=creator;
+
+    }
+
+
+
 
     @Override
     public String toString(){

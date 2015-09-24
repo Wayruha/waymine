@@ -12,6 +12,12 @@ public class TaskForm {
     private String accessList;
     private String creator;
     private boolean editing=false;
+
+
+    public boolean isEditing() {
+        return editing;
+    }
+
     private Integer plannedTime=0;
 
     public TaskForm() {
@@ -19,8 +25,17 @@ public class TaskForm {
     public TaskForm(Task task) {
         this.title=task.getTitle();
         this.description=task.getDescription();
-    //    this.status=task.getStatus();
+        this.status=task.getStatus();
     }
+
+    public Integer getPlannedTime() {
+        return plannedTime;
+    }
+
+    public void setPlannedTime(Integer plannedTime) {
+        this.plannedTime = plannedTime;
+    }
+
 
     public int getId() {
         return id;

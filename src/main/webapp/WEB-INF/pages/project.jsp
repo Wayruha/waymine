@@ -85,12 +85,10 @@
                             </tr>
 
                         </table>
-                            <div style="position:absolute;right:5%;">${task.status}</div>
-                            <br>
-
+                            <div style="position:absolute;right:5%;">${task.status.text}</div>
                             <br>
                             <br>
-
+                            <br>
                             <div class="col-md-6">
                                 <p align="left"><font size="2">Здати до:</font></p>
                             </div>
