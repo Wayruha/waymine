@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<%@page pageEncoding="windows-1251"%>
+        <!DOCTYPE html>
 <html>
 
 <head>
@@ -22,7 +23,7 @@
             var list=document.getElementById("listOfUsers");
             var li=document.getElementById(userId);
             var pre=document.createElement('pre');
-            var node=document.createTextNode(li.firstChild.text+'    ');    //   Р—Р°Р±СЂР°С‚СЊ
+            var node=document.createTextNode(li.firstChild.text+'    ');    //   Забрать
             var select=document.createElement('select');
             var imgMinus=document.createElement("img");
             imgMinus.align="right";
@@ -31,7 +32,7 @@
             imgMinus.onclick=returnToUl;
             select.options[0]=new Option("Owner","<%=Access.Owner%>");
             select.options[1]=new Option("Observer","<%=Access.Owner%>");
-            pre.appendChild(node);// Р—Р°Р±СЂР°С‚СЊ
+            pre.appendChild(node);// Забрать
             pre.appendChild(select);
             pre.appendChild(imgMinus)
             list.appendChild(pre);
@@ -122,7 +123,8 @@
                 <div class="col-md-8 pull-left">
                     <br>
                     <div class="well" style="border-radius:10px">
-                        <form:form action="/form/saveTask?project=${projectId}" modelAttribute="TaskForm" class="form-horizontal" role="form" name="form" method="get">
+
+                        <form:form action="/form/saveTask/${projectId}" modelAttribute="TaskForm" class="form-horizontal" role="form" name="form" method="get">
                             <div class="form-group">
                                 <div class="col-sm-2">
                                     <label for="title" class="control-label">Title</label>
@@ -165,6 +167,21 @@
                             <hr>
                             <div class="form-group">
                                 <div class="col-sm-2">
+                                    <label for="status" class="control-label">Status</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <form:select path="status" class="form-control" id="status" >
+                                        <form:option value="" label="---select---" />
+                                        <c:forEach items="${statusList}" var="status">
+                                            <form:option value="${status}" label="${status.text}"/>
+                                        </c:forEach>
+
+                                    </form:select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-sm-2">
                                     <label for="title" class="control-label">Planned time</label>
                                 </div>
                                 <div class="col-sm-6">
@@ -183,7 +200,7 @@
 
                         </form:form>      <c:if test="${error=='valid'}">
                         <font color="red">
-                            РќРµ РїСЂР°РІРёР»СЊРЅРѕ Р·Р°РїРѕРІРЅРµРЅС– РїРѕР»СЏ
+                            Не правильно заповнені поля
                         </font>
                             </c:if>
                     </div>

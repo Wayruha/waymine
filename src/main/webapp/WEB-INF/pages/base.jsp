@@ -9,10 +9,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>All projects - Waymine</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Roma">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
           rel="stylesheet" type="text/css">
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -95,7 +95,7 @@
                     </div>
                     </c:forEach>
                 <c:if test="${fn:length(history)>0}">
-                    <div style="width: 100%; margin: 3em auto; padding: 1em; box-shadow:
+                    <div style="width: 100%;max-height: 500px; margin: 3em auto; padding: 1em; box-shadow:
                         -20px 20px 0 -17px #f5f5f5, 20px -20px 0 -17px #f5f5f5, 20px 20px 0 -20px #c27153, 0 0 0 2px #c27153; word-wrap:break-word;">
                         <c:forEach items="${history}" var="historyPost">
                             <p><u>${historyPost.date}</u>: <b>${historyPost.actor.login}</b> <spring:message code="history.${historyPost.action}" />: <u> ${historyPost.object}</u></p>

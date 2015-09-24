@@ -3,12 +3,11 @@ az\mecid\models\Comment.class
 az\mecid\enums\Access.class
 az\mecid\controllers\FormController.class
 az\mecid\forms\ProjectForm.class
-az\mecid\forms\validators\SaveTaskValidator.class
 az\mecid\enums\Role.class
-az\mecid\mail\MyMail.class
+az\mecid\forms\validators\SaveTaskValidator.class
 az\mecid\enums\TaskStatus.class
+az\mecid\mail\MyMail.class
 az\mecid\models\DataEntity.class
-az\mecid\controllers\product.class
 az\mecid\models\Task_User.class
 az\mecid\controllers\projectURIController.class
 az\mecid\enums\HistoryAction.class

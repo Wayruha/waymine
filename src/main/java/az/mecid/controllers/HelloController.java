@@ -23,13 +23,19 @@ public class HelloController {
     @Autowired
     private AdsDao adsDao;
 
-    @RequestMapping(value = {"/","","index","index.jsp"})
-    public String index(Principal principal){
+
+    @RequestMapping(value = {"/"})
+    public String index(){
+         return "index";
+    }
+
+    @RequestMapping(value = {"/home","home"})
+    public String home(Principal principal){
         if(principal!=null) return "redirect:/userinfo/"+adsDao.getUserByLogin(principal.getName()).getId();
         else return "index";
-
-
     }
+
+
 
  @RequestMapping(value = {"/topFromProj","topFromProj"})
  public ModelAndView top(@RequestParam("project") int projectId,Principal principal){
@@ -51,11 +57,7 @@ public class HelloController {
     }
 
 
-    @RequestMapping(value = "{someAddress}",method = RequestMethod.GET)
-    public ModelAndView error404(){
-        return new ModelAndView("error404");
 
-    }
 
     @RequestMapping(value = {"/top"},method = RequestMethod.GET)
     public ModelAndView top(Principal principal){
@@ -141,5 +143,10 @@ public class HelloController {
     public User getUser() {
         return new User();
     }
+    @RequestMapping(value = "{someAddress}",method = RequestMethod.GET)
+    public ModelAndView error404(){
+        return new ModelAndView("error404");
+    }
+
 
 }

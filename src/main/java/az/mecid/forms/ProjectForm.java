@@ -3,12 +3,10 @@ package az.mecid.forms;
 import az.mecid.enums.ProjectType;
 import az.mecid.models.Project;
 
-import javax.validation.constraints.Size;
-
 public class ProjectForm {
+
     private int id;
-    @Size(min=2, max=30, message = "Не має бути пустим")
-    private String name;
+    private String title;
     private String description;
     private String manager;
     private ProjectType type;
@@ -21,19 +19,13 @@ public class ProjectForm {
 
     public ProjectForm(Project project) {
         this.id=project.getId();
-        this.name=project.getName();
+        this.title=project.getName();
         this.description=project.getDescription();
         this.manager=project.getManager()==null?"":project.getManager().getLogin();
         this.type=project.getType();
     }
 
-    public String getUserList() {
-        return userList;
-    }
 
-    public void setUserList(String userList) {
-        this.userList = userList;
-    }
 
     public int getId() {
         return id;
@@ -43,21 +35,12 @@ public class ProjectForm {
         this.id = id;
     }
 
-    public boolean getEditing() {
-        return editing;
-    }
-
-    public void setEditing(boolean editing) {
-        this.editing = editing;
-    }
-
-
     public String getTitle() {
-        return name;
+        return title;
     }
 
     public void setTitle(String title) {
-        this.name = title;
+        this.title = title;
     }
 
     public String getDescription() {
@@ -83,6 +66,23 @@ public class ProjectForm {
     public void setType(ProjectType type) {
         this.type = type;
     }
+
+    public boolean isEditing() {
+        return editing;
+    }
+
+    public void setEditing(boolean editing) {
+        this.editing = editing;
+    }
+
+    public String getUserList() {
+        return userList;
+    }
+
+    public void setUserList(String userList) {
+        this.userList = userList;
+    }
+
 
 
 

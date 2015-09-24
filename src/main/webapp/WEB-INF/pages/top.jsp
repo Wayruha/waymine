@@ -5,7 +5,6 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -35,7 +34,7 @@
             </button>
 
             <a class="navbar-brand" href="/projects/${project.id}" target="_top">${project.name}</a>
-            <c:if test="${empty project.name}"><a class="navbar-brand" href="/index" target="_top">WayMine</a></c:if>
+            <c:if test="${empty project.name}"><a class="navbar-brand" href="/" target="_top">WayMine</a></c:if>
 
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
